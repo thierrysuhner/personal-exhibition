@@ -166,18 +166,20 @@ class FlightLogApp {
     const canvas = document.createElement('canvas');
     canvas.width = 140;
     canvas.height = 140;
-    const rc = rough.canvas(canvas);
-    rc.rectangle(5, 5, 130, 130, {
-      stroke: '#1A1A1A',
-      strokeWidth: 1,
-      fill: 'none',
-      roughness: 1.5
-    });
-
     const ctx = canvas.getContext('2d');
-    ctx.font = '0.9rem "Caveat", cursive';
+
+    // Draw dashed border
+    ctx.strokeStyle = '#1A1A1A';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.strokeRect(5, 5, 130, 130);
+
+    // Draw label text
+    ctx.setLineDash([]);
+    ctx.font = '900 0.9rem "Caveat", cursive';
     ctx.fillStyle = '#2C2C2C';
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(label, 70, 70);
 
     container.appendChild(canvas);
