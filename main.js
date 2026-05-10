@@ -22,15 +22,17 @@ class FlightLogApp {
     // Warning text
     const warning = 'WARNING: NON-STANDARD ROUTE DETECTED';
     await this.typeText(textEl, warning, 35, '#8B1A1A', '2rem');
+    await this.typeDots(textEl, 3, 220);
 
-    await this.sleep(900);
+    await this.sleep(700);
 
     // Clear and next line
     textEl.innerHTML = '';
-    const initiating = 'INITIATING FLIGHT LOG...';
+    const initiating = 'INITIATING FLIGHT LOG';
     await this.typeText(textEl, initiating, 35, '#C97D10', '1rem');
+    await this.typeDots(textEl, 3, 260);
 
-    await this.sleep(700);
+    await this.sleep(500);
 
     // Fade out overlay
     overlay.classList.add('fade-out');
@@ -52,6 +54,13 @@ class FlightLogApp {
     for (let char of text) {
       el.textContent += char;
       await this.sleep(delay);
+    }
+  }
+
+  async typeDots(el, count, delay) {
+    for (let i = 0; i < count; i++) {
+      await this.sleep(delay);
+      el.textContent += '.';
     }
   }
 
