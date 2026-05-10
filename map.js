@@ -1,7 +1,6 @@
 class RouteMap {
   constructor() {
     this.svg = document.getElementById('map-svg');
-    this.rc = rough.canvas(this.svg);
     this.state = {
       dots: ['CH-LENZ', 'CH-ARMY', 'CH-HSG', 'CA-VAN', 'XX-NEXT'],
       dotStates: {
@@ -118,9 +117,6 @@ class RouteMap {
     const fromPos = this.getPixelPosition(fromId);
     const toPos = this.getPixelPosition(toId);
 
-    const rc = rough.svg(this.svg);
-
-    // Try to load SVG line first
     const lineNum = chapters.findIndex(c => c.dot === fromId) + 1;
     const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'image');
     svgPath.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `assets/drawings/line-${lineNum}-${lineNum + 1}.svg`);
@@ -135,7 +131,7 @@ class RouteMap {
     };
     this.svg.appendChild(svgPath);
 
-    // Fall back to rough.js line if SVG doesn't load
+    // Fall back to rough line if SVG doesn't load
     fetch(`assets/drawings/line-${lineNum}-${lineNum + 1}.svg`)
       .catch(() => {
         if (svgPath.parentNode) svgPath.remove();
@@ -168,17 +164,21 @@ class RouteMap {
 
   attachDotListeners() {
     this.svg.addEventListener('click', (e) => {
-      const dotEl = e.target.closest('.map-dot');
+      const dotEl = e.target.closest('[data-dot-id]');
       if (!dotEl) return;
 
       const dotId = dotEl.dataset.dotId;
       const state = this.state.dotStates[dotId];
 
-      if (state === 'ready') {
+      // If there's an active origin, try to connect to the next dot
+      if (this.state.activeOrigin) {
+        const nextDotId = this.getNextDotId(this.state.activeOrigin);
+        if (dotId === nextDotId) {
+          this.connectDots(this.state.activeOrigin, dotId);
+        }
+      } else if (state === 'ready' || state === 'connected') {
+        // Only select as origin if no origin is currently active
         this.selectOriginDot(dotId);
-      } else if (state === 'connected' && this.state.activeOrigin) {
-        // Clicking a connected dot as target
-        this.connectDots(this.state.activeOrigin, dotId);
       }
     });
 
