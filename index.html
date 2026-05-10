@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Log — Personal Exhibition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Intro Overlay -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-container">
+            <div id="intro-text"></div>
+        </div>
+    </div>
+
+    <!-- Main Logbook -->
+    <main id="logbook" class="logbook hidden">
+        <div class="logbook-spread">
+            <!-- Header -->
+            <header class="logbook-header">
+                <span class="header-title">FLIGHT LOG // T.S.</span>
+            </header>
+
+            <!-- Left Page: Route Map -->
+            <section class="left-page">
+                <div id="map-container" class="map-container">
+                    <svg id="map-svg" class="map-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+                        <!-- Map background will be drawn here -->
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Center Binding -->
+            <div class="binding"></div>
+
+            <!-- Right Page: Chapter Content -->
+            <section class="right-page">
+                <div id="chapter-container" class="chapter-container">
+                    <!-- Chapter content will be rendered here -->
+                </div>
+            </section>
+
+            <!-- Bottom Bar -->
+            <footer class="bottom-bar">
+                <div class="dot-indicators">
+                    <span id="indicator-1" class="indicator"></span>
+                    <span id="indicator-2" class="indicator"></span>
+                    <span id="indicator-3" class="indicator"></span>
+                    <span id="indicator-4" class="indicator"></span>
+                    <span id="indicator-5" class="indicator"></span>
+                </div>
+                <div id="hint-text" class="hint-text">click a dot to begin</div>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/roughjs@4.5.0/bundled/rough.min.js"></script>
+    <script src="chapters.js"></script>
+    <script src="map.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
