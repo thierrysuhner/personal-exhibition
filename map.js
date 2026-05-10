@@ -250,8 +250,9 @@ class RouteMap {
       if (!this.state.activeOrigin) return;
 
       const rect = this.svg.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const viewBox = this.svg.viewBox.baseVal;
+      const x = (e.clientX - rect.left) * (viewBox.width / rect.width);
+      const y = (e.clientY - rect.top) * (viewBox.height / rect.height);
 
       // Preview line to next dot
       const nextDotId = this.getNextDotId(this.state.activeOrigin);
