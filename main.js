@@ -218,6 +218,11 @@ class FlightLogApp {
 }
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    new FlightLogApp();
+  });
+} else {
+  // DOM already loaded (e.g., if script runs after DOM is ready)
   new FlightLogApp();
-});
+}
