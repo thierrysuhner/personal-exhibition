@@ -29,25 +29,28 @@ class RouteMap {
     // Clear SVG
     this.svg.innerHTML = '';
 
-    // Draw map base (rough rectangle border)
-    const rc = rough.svg(this.svg);
+    // Draw map base (rectangle border)
     const viewBox = this.svg.viewBox.baseVal;
-    const mapBase = rc.rectangle(5, 5, viewBox.width - 10, viewBox.height - 10, {
-      strokeWidth: 1.5,
-      stroke: '#1A1A1A',
-      fill: 'none',
-      roughness: 1.2
-    });
+    const mapBase = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    mapBase.setAttribute('x', 5);
+    mapBase.setAttribute('y', 5);
+    mapBase.setAttribute('width', viewBox.width - 10);
+    mapBase.setAttribute('height', viewBox.height - 10);
+    mapBase.setAttribute('stroke', '#1A1A1A');
+    mapBase.setAttribute('stroke-width', 1.5);
+    mapBase.setAttribute('fill', 'none');
     this.svg.appendChild(mapBase);
 
-    // Draw ocean crossing (subtle wavy line between CH-HSG and CA-VAN)
+    // Draw ocean crossing (subtle line between CH-HSG and CA-VAN)
     const hsg = this.getPixelPosition('CH-HSG');
     const van = this.getPixelPosition('CA-VAN');
-    const oceanLine = rc.line(hsg.px, hsg.py, van.px, van.py, {
-      strokeWidth: 0.5,
-      stroke: '#D6E4EE',
-      roughness: 2
-    });
+    const oceanLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    oceanLine.setAttribute('x1', hsg.px);
+    oceanLine.setAttribute('y1', hsg.py);
+    oceanLine.setAttribute('x2', van.px);
+    oceanLine.setAttribute('y2', van.py);
+    oceanLine.setAttribute('stroke', '#D6E4EE');
+    oceanLine.setAttribute('stroke-width', 0.5);
     this.svg.appendChild(oceanLine);
 
     // Draw dots
@@ -98,14 +101,14 @@ class RouteMap {
   }
 
   drawRoughDot(dotId, px, py, state) {
-    const rc = rough.svg(this.svg);
     const color = state === 'locked' ? '#999999' : (state === 'ready' ? '#1B4332' : '#1B4332');
-    const dot = rc.circle(px, py, 8, {
-      fill: color,
-      fillStyle: 'solid',
-      stroke: color,
-      strokeWidth: 1.5
-    });
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', px);
+    dot.setAttribute('cy', py);
+    dot.setAttribute('r', 8);
+    dot.setAttribute('fill', color);
+    dot.setAttribute('stroke', color);
+    dot.setAttribute('stroke-width', 1.5);
     dot.classList.add('map-dot', state);
     dot.dataset.dotId = dotId;
     this.svg.appendChild(dot);
@@ -141,12 +144,13 @@ class RouteMap {
   }
 
   drawRoughLine(fromPos, toPos) {
-    const rc = rough.svg(this.svg);
-    const line = rc.line(fromPos.px, fromPos.py, toPos.px, toPos.py, {
-      stroke: '#1B4332',
-      strokeWidth: 2,
-      roughness: 1
-    });
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', fromPos.px);
+    line.setAttribute('y1', fromPos.py);
+    line.setAttribute('x2', toPos.px);
+    line.setAttribute('y2', toPos.py);
+    line.setAttribute('stroke', '#1B4332');
+    line.setAttribute('stroke-width', 2);
     line.style.pointerEvents = 'none';
     this.svg.appendChild(line);
   }
@@ -253,19 +257,19 @@ class RouteMap {
       const nextDotId = this.getNextDotId(this.state.activeOrigin);
       if (nextDotId) {
         const origin = this.getPixelPosition(this.state.activeOrigin);
-        const target = this.getPixelPosition(nextDotId);
 
         // Draw preview line (dashed, amber)
         const previews = this.svg.querySelectorAll('[data-preview-line]');
         previews.forEach(p => p.remove());
 
-        const svg = rough.svg(this.svg);
-        const previewLine = svg.line(origin.px, origin.py, x, y, {
-          stroke: '#C97D10',
-          strokeWidth: 1.5,
-          strokeLineDash: [4, 4],
-          roughness: 1
-        });
+        const previewLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        previewLine.setAttribute('x1', origin.px);
+        previewLine.setAttribute('y1', origin.py);
+        previewLine.setAttribute('x2', x);
+        previewLine.setAttribute('y2', y);
+        previewLine.setAttribute('stroke', '#C97D10');
+        previewLine.setAttribute('stroke-width', 1.5);
+        previewLine.setAttribute('stroke-dasharray', '4,4');
         previewLine.setAttribute('data-preview-line', 'true');
         previewLine.style.pointerEvents = 'none';
         this.svg.appendChild(previewLine);
