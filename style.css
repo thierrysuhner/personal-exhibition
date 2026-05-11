@@ -433,10 +433,13 @@ body {
     position: fixed;
     inset: 0;
     z-index: 500;
-    background: #06111f;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
+    /* Real cockpit photo as the base — video blends through the windows */
+    background-image: url('https://images.pexels.com/photos/32649172/pexels-photo-32649172.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size: cover;
+    background-position: center;
 }
 
 .flight-overlay.active {
@@ -444,73 +447,44 @@ body {
     pointer-events: all;
 }
 
-/* Aerial canvas fills entire overlay */
-.aerial-canvas {
+/* Aerial video — multiply blend darkens cockpit frame, lets video shine
+   through the bright windshield areas, mimicking tinted aircraft glass.
+   Slight blur hides compression and reads as aircraft-glass distortion. */
+.flight-video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    display: block;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+    filter: blur(1.5px) brightness(1.2);
+    z-index: 1;
 }
 
-/* Cockpit frame overlay — vignette + structural elements */
-.cockpit-frame {
+/* Edge vignette to enhance the cockpit-window-frame feeling */
+.cockpit-vignette {
     position: absolute;
     inset: 0;
-    pointer-events: none;
     z-index: 2;
+    pointer-events: none;
     background: radial-gradient(
-        ellipse 84% 74% at 50% 44%,
-        transparent 54%,
-        rgba(4, 8, 20, 0.52) 78%,
-        rgba(2, 5, 15, 0.9) 100%
+        ellipse 78% 66% at 50% 43%,
+        transparent 46%,
+        rgba(2, 5, 15, 0.48) 72%,
+        rgba(2, 5, 15, 0.86) 100%
     );
 }
 
-/* Top bezel shadow */
-.cockpit-frame::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 9%;
-    background: linear-gradient(to bottom, rgba(4, 8, 18, 0.9), transparent);
-}
-
-/* Bottom instrument panel fade */
-.cockpit-frame::after {
+/* Bottom instrument-panel fade */
+.cockpit-vignette::after {
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    height: 24%;
-    background: linear-gradient(to top, rgba(3, 7, 16, 1) 0%, transparent 100%);
-    z-index: 2;
+    height: 22%;
+    background: linear-gradient(to top, rgba(3, 7, 16, 1), transparent);
 }
 
-/* Center windshield strut */
-.cockpit-center-strut {
-    position: absolute;
-    left: 50%;
-    top: 0; bottom: 0;
-    width: 18px;
-    transform: translateX(-50%);
-    background: rgba(6, 10, 18, 0.88);
-    z-index: 3;
-    box-shadow: 0 0 24px rgba(0, 0, 0, 0.9);
-}
-
-/* Glare on upper-left of windshield */
-.cockpit-glare {
-    position: absolute;
-    top: 6%;
-    left: 8%;
-    width: 28%;
-    height: 42%;
-    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* HUD readout — absolute overlay at bottom */
+/* HUD readout — overlaid at bottom */
 .flight-hud {
     position: absolute;
     bottom: 0; left: 0; right: 0;
