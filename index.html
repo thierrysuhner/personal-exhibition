@@ -58,10 +58,10 @@
     <!-- Flight Animation Overlay (body-level to avoid stacking context issues) -->
     <div id="flight-overlay" class="flight-overlay">
         <video id="flight-video" class="flight-video" autoplay loop muted playsinline>
-            <!-- Drop a better aerial clip at assets/flight-video.mp4 to override the fallback -->
             <source src="assets/flight-video.mp4" type="video/mp4">
             <source src="https://archive.org/download/FindingFootageCloudsTimeLapse/FindingFootageCloudsTimeLapse.mp4" type="video/mp4">
         </video>
+        <div class="cockpit-photo-overlay"></div>
         <div class="cockpit-vignette"></div>
         <div class="flight-hud" id="flight-hud"></div>
     </div>
