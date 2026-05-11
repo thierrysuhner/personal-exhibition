@@ -269,12 +269,19 @@ class FlightLogApp {
       this.saveStateToStorage();
       this.updateIndicators();
 
-      await this.triggerFlightAnimation(fromChapterId, chapterId);
-
-      this.state.currentChapter = chapterId;
-      this.state.isAnimating = false;
-      this.renderChapter(chapterId);
-      this.updateHintText();
+      try {
+        await this.triggerFlightAnimation(fromChapterId, chapterId);
+      } catch (err) {
+        console.error('Flight animation error:', err);
+        document.getElementById('flight-overlay').classList.remove('active');
+        if (this.aerialCanvas) { this.aerialCanvas.stop(); this.aerialCanvas = null; }
+      } finally {
+        this.state.currentChapter = chapterId;
+        this.state.isAnimating = false;
+        this.saveStateToStorage();
+        this.renderChapter(chapterId);
+        this.updateHintText();
+      }
     });
   }
 
@@ -445,6 +452,7 @@ class FlightLogApp {
     const saved = sessionStorage.getItem('flightLogState');
     if (saved) {
       this.state = JSON.parse(saved);
+      this.state.isAnimating = false; // never persist a locked state across page loads
     }
   }
 }
