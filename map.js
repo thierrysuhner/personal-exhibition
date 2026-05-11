@@ -25,22 +25,49 @@ class RouteMap {
   }
 
   drawMap() {
-    // Clear SVG
     this.svg.innerHTML = '';
 
-    // Draw map base (rectangle border)
     const viewBox = this.svg.viewBox.baseVal;
+
+    // Dark EFB background
+    const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    bg.setAttribute('x', 0);
+    bg.setAttribute('y', 0);
+    bg.setAttribute('width', viewBox.width);
+    bg.setAttribute('height', viewBox.height);
+    bg.setAttribute('fill', '#050e1c');
+    this.svg.appendChild(bg);
+
+    // Subtle nav-chart grid
+    const grid = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    grid.setAttribute('stroke', 'rgba(0,180,255,0.06)');
+    grid.setAttribute('stroke-width', '0.5');
+    for (let y = 60; y < viewBox.height; y += 60) {
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', 0); l.setAttribute('y1', y);
+      l.setAttribute('x2', viewBox.width); l.setAttribute('y2', y);
+      grid.appendChild(l);
+    }
+    for (let x = 80; x < viewBox.width; x += 80) {
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', x); l.setAttribute('y1', 0);
+      l.setAttribute('x2', x); l.setAttribute('y2', viewBox.height);
+      grid.appendChild(l);
+    }
+    this.svg.appendChild(grid);
+
+    // Map border
     const mapBase = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     mapBase.setAttribute('x', 5);
     mapBase.setAttribute('y', 5);
     mapBase.setAttribute('width', viewBox.width - 10);
     mapBase.setAttribute('height', viewBox.height - 10);
-    mapBase.setAttribute('stroke', '#1A1A1A');
-    mapBase.setAttribute('stroke-width', 1.5);
+    mapBase.setAttribute('stroke', 'rgba(0,180,255,0.2)');
+    mapBase.setAttribute('stroke-width', 0.5);
     mapBase.setAttribute('fill', 'none');
     this.svg.appendChild(mapBase);
 
-    // Draw ocean crossing (subtle line between CH-HSG and CA-VAN)
+    // Ocean crossing (subtle dashed line CH-HSG → CA-VAN)
     const hsg = this.getPixelPosition('CH-HSG');
     const van = this.getPixelPosition('CA-VAN');
     const oceanLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -48,18 +75,19 @@ class RouteMap {
     oceanLine.setAttribute('y1', hsg.py);
     oceanLine.setAttribute('x2', van.px);
     oceanLine.setAttribute('y2', van.py);
-    oceanLine.setAttribute('stroke', '#D6E4EE');
+    oceanLine.setAttribute('stroke', 'rgba(0,200,255,0.1)');
     oceanLine.setAttribute('stroke-width', 0.5);
+    oceanLine.setAttribute('stroke-dasharray', '3,5');
     this.svg.appendChild(oceanLine);
+
+    // Draw connected lines first (behind dots)
+    for (const pair of this.state.connectedPairs) {
+      this.drawConnectedLine(pair.from, pair.to);
+    }
 
     // Draw dots
     for (const dotId of this.state.dots) {
       this.drawDot(dotId);
-    }
-
-    // Draw connected lines
-    for (const pair of this.state.connectedPairs) {
-      this.drawConnectedLine(pair.from, pair.to);
     }
   }
 
@@ -68,7 +96,6 @@ class RouteMap {
     const dotState = this.state.dotStates[dotId];
     const chapter = chapters.find(c => c.dot === dotId);
 
-    // Try to load SVG, fall back to rough.js circle
     const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
     img.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `assets/drawings/dot-${chapter.id}.svg`);
     img.setAttribute('x', px - 12);
@@ -83,31 +110,32 @@ class RouteMap {
     };
     this.svg.appendChild(img);
 
-    // Try to load actual SVG for dot
     fetch(`assets/drawings/dot-${dotId}.svg`)
       .catch(() => {
         if (img.parentNode) img.remove();
         this.drawRoughDot(dotId, px, py, dotState);
       });
 
-    // Draw label
+    // Label
     const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     label.setAttribute('x', px);
-    label.setAttribute('y', py + 28);
+    label.setAttribute('y', py + 22);
     label.setAttribute('class', `map-label ${dotState}`);
     label.textContent = chapter.dotLabel;
     this.svg.appendChild(label);
   }
 
   drawRoughDot(dotId, px, py, state) {
-    const color = state === 'locked' ? '#999999' : (state === 'ready' ? '#1B4332' : '#1B4332');
+    const color = state === 'locked'    ? 'rgba(0,150,200,0.2)'
+                : state === 'connected' ? '#00E676'
+                :                        '#00BFFF';
     const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     dot.setAttribute('cx', px);
     dot.setAttribute('cy', py);
-    dot.setAttribute('r', 8);
+    dot.setAttribute('r', 5);
     dot.setAttribute('fill', color);
     dot.setAttribute('stroke', color);
-    dot.setAttribute('stroke-width', 1.5);
+    dot.setAttribute('stroke-width', 1);
     dot.classList.add('map-dot', state);
     dot.dataset.dotId = dotId;
     this.svg.appendChild(dot);
@@ -115,7 +143,7 @@ class RouteMap {
 
   drawConnectedLine(fromId, toId) {
     const fromPos = this.getPixelPosition(fromId);
-    const toPos = this.getPixelPosition(toId);
+    const toPos   = this.getPixelPosition(toId);
 
     const lineNum = chapters.findIndex(c => c.dot === fromId) + 1;
     const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'image');
@@ -131,7 +159,6 @@ class RouteMap {
     };
     this.svg.appendChild(svgPath);
 
-    // Fall back to rough line if SVG doesn't load
     fetch(`assets/drawings/line-${lineNum}-${lineNum + 1}.svg`)
       .catch(() => {
         if (svgPath.parentNode) svgPath.remove();
@@ -145,8 +172,8 @@ class RouteMap {
     line.setAttribute('y1', fromPos.py);
     line.setAttribute('x2', toPos.px);
     line.setAttribute('y2', toPos.py);
-    line.setAttribute('stroke', '#1B4332');
-    line.setAttribute('stroke-width', 2);
+    line.setAttribute('stroke', '#00E676');
+    line.setAttribute('stroke-width', 1.5);
     line.style.pointerEvents = 'none';
     this.svg.appendChild(line);
   }
@@ -170,14 +197,12 @@ class RouteMap {
       const dotId = dotEl.dataset.dotId;
       const state = this.state.dotStates[dotId];
 
-      // If there's an active origin, try to connect to the next dot
       if (this.state.activeOrigin) {
         const nextDotId = this.getNextDotId(this.state.activeOrigin);
         if (dotId === nextDotId) {
           this.connectDots(this.state.activeOrigin, dotId);
         }
       } else if (state === 'ready' || state === 'connected') {
-        // Only select as origin if no origin is currently active
         this.selectOriginDot(dotId);
       }
     });
@@ -190,7 +215,7 @@ class RouteMap {
       if (this.state.activeOrigin) {
         const nextDotId = this.getNextDotId(this.state.activeOrigin);
         if (dotId === nextDotId) {
-          dotEl.style.filter = 'drop-shadow(0 0 16px var(--amber-warn))';
+          dotEl.style.filter = 'drop-shadow(0 0 16px #C97D10)';
         }
       }
     });
@@ -217,25 +242,19 @@ class RouteMap {
 
   connectDots(fromId, toId) {
     const nextDot = this.getNextDotId(fromId);
-    if (toId !== nextDot) {
-      return; // Only allow sequential connections
-    }
+    if (toId !== nextDot) return;
 
-    // Add to connected pairs
     this.state.connectedPairs.push({ from: fromId, to: toId });
     this.state.dotStates[toId] = 'connected';
 
-    // Find next ready dot
     const toIndex = this.state.dots.indexOf(toId);
     if (toIndex < this.state.dots.length - 1) {
-      const nextId = this.state.dots[toIndex + 1];
-      this.state.dotStates[nextId] = 'ready';
+      this.state.dotStates[this.state.dots[toIndex + 1]] = 'ready';
     }
 
     this.state.activeOrigin = null;
     this.redraw();
 
-    // Notify main app
     const nextChapter = chapters.find(c => c.dot === toId);
     window.dispatchEvent(new CustomEvent('chapterConnected', { detail: { chapterId: nextChapter.id } }));
   }
@@ -254,12 +273,10 @@ class RouteMap {
       const x = (e.clientX - rect.left) * (viewBox.width / rect.width);
       const y = (e.clientY - rect.top) * (viewBox.height / rect.height);
 
-      // Preview line to next dot
       const nextDotId = this.getNextDotId(this.state.activeOrigin);
       if (nextDotId) {
         const origin = this.getPixelPosition(this.state.activeOrigin);
 
-        // Draw preview line (dashed, amber)
         const previews = this.svg.querySelectorAll('[data-preview-line]');
         previews.forEach(p => p.remove());
 

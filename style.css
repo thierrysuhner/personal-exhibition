@@ -1,13 +1,17 @@
 /* Design Tokens */
 :root {
     --bg-paper: #F5F0E8;
-    --grid-line: #D6E4EE;
     --ink-dark: #1A1A1A;
     --ink-hand: #2C2C2C;
     --green-active: #1B4332;
     --amber-warn: #C97D10;
     --red-warn: #8B1A1A;
     --stamp-ink: #8B6B4A;
+
+    --screen-bg: #050e1c;
+    --screen-cyan: #00BFFF;
+    --screen-green: #00E676;
+    --bezel: #111;
 
     --font-caveat: 'Caveat', cursive;
     --font-mono: 'IBM Plex Mono', monospace;
@@ -23,7 +27,7 @@
 html, body {
     width: 100%;
     height: 100%;
-    background: var(--bg-paper);
+    background: #06080e;
     font-family: var(--font-mono);
     color: var(--ink-dark);
     overflow: hidden;
@@ -33,23 +37,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-/* Grid Texture Background */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        linear-gradient(0deg, transparent 24%, var(--grid-line) 25%, var(--grid-line) 26%, transparent 27%, transparent 74%, var(--grid-line) 75%, var(--grid-line) 76%, transparent 77%, transparent),
-        linear-gradient(90deg, transparent 24%, var(--grid-line) 25%, var(--grid-line) 26%, transparent 27%, transparent 74%, var(--grid-line) 75%, var(--grid-line) 76%, transparent 77%, transparent);
-    background-size: 20px 20px;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
 }
 
 /* Intro Overlay */
@@ -90,19 +77,32 @@ body::before {
     }
 }
 
-/* Logbook */
+/* Logbook — cockpit background */
 #logbook {
     position: relative;
     width: 1280px;
     height: 720px;
-    background: var(--bg-paper);
+    background-image: url('https://images.pexels.com/photos/32649172/pexels-photo-32649172.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size: cover;
+    background-position: center;
     z-index: 1;
+    overflow: hidden;
+}
+
+/* Dark vignette so UI elements are readable */
+#logbook::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 8, 20, 0.62);
+    z-index: 0;
 }
 
 #logbook.hidden {
     display: none;
 }
 
+/* Grid layout: header / [map | binding | paper] / footer */
 .logbook-spread {
     position: relative;
     width: 100%;
@@ -110,107 +110,113 @@ body::before {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     grid-template-rows: auto 1fr auto;
-    padding: 40px;
-    gap: 0;
+    padding: 28px 36px;
+    z-index: 1;
 }
 
 /* Header */
 .logbook-header {
-    display: flex;
-    justify-content: flex-end;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--ink-dark);
     grid-column: 1 / -1;
     grid-row: 1;
-}
-
-.header-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 180, 255, 0.22);
+    color: rgba(0, 200, 255, 0.5);
 }
 
-/* Pages Container */
+/* Pages */
 .logbook-spread > .left-page {
     grid-column: 1;
     grid-row: 2;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logbook-spread > .right-page {
     grid-column: 3;
     grid-row: 2;
     position: relative;
-}
-
-.left-page {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
-.right-page {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    overflow-y: auto;
-    padding: 0 40px;
-}
-
-.right-page::-webkit-scrollbar {
-    width: 4px;
-}
-
-.right-page::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.right-page::-webkit-scrollbar-thumb {
-    background: var(--ink-dark);
-    border-radius: 2px;
-}
-
-/* Binding */
+/* Binding — thin glowing seam */
 .binding {
-    position: relative;
-    width: 1px;
-    background: var(--ink-dark);
-    box-shadow: -2px 0 3px rgba(0,0,0,0.05), 2px 0 3px rgba(0,0,0,0.05);
     grid-column: 2;
     grid-row: 2;
+    width: 1px;
+    background: rgba(0, 180, 255, 0.18);
+    box-shadow: 0 0 10px rgba(0, 180, 255, 0.12);
     justify-self: center;
+    margin: 0 20px;
 }
 
-/* Map Container */
+/* EFB / iPad frame */
 .map-container {
     width: 100%;
     height: 100%;
-    max-width: 400px;
-    max-height: 300px;
+    max-width: 420px;
+    max-height: 320px;
     position: relative;
+    background: var(--screen-bg);
+    border: 14px solid var(--bezel);
+    border-radius: 24px;
+    box-shadow:
+        0 0 0 1px #222,
+        0 0 0 2px #0a0a0a,
+        0 30px 60px rgba(0, 0, 0, 0.9),
+        0 0 80px rgba(0, 150, 255, 0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* EFB status bar */
+.map-container::before {
+    content: 'EFB  ·  ROUTE MAP';
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
+    color: rgba(0, 200, 255, 0.35);
+    letter-spacing: 0.15em;
+    text-align: center;
+    padding: 5px 8px 4px;
+    border-bottom: 1px solid rgba(0, 200, 255, 0.07);
+    background: rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
 }
 
 .map-svg {
+    flex: 1;
     width: 100%;
-    height: 100%;
     cursor: crosshair;
+    display: block;
 }
 
+/* Map dot states */
 .map-dot {
     cursor: pointer;
     transition: opacity 0.2s ease;
 }
 
 .map-dot.locked {
-    opacity: 0.3;
+    opacity: 0.25;
     cursor: default;
 }
 
 .map-dot.ready {
-    filter: drop-shadow(0 0 8px var(--green-active));
+    filter: drop-shadow(0 0 6px var(--screen-cyan));
     animation: pulse 2s ease-in-out infinite;
 }
 
@@ -219,84 +225,87 @@ body::before {
 }
 
 @keyframes pulse {
-    0%, 100% {
-        filter: drop-shadow(0 0 4px var(--green-active));
-    }
-    50% {
-        filter: drop-shadow(0 0 12px var(--green-active));
-    }
+    0%, 100% { filter: drop-shadow(0 0 3px var(--screen-cyan)); }
+    50%       { filter: drop-shadow(0 0 10px var(--screen-cyan)); }
 }
 
 .map-dot:hover.ready {
-    filter: drop-shadow(0 0 14px var(--green-active));
+    filter: drop-shadow(0 0 14px var(--screen-cyan));
 }
 
 .map-label {
-    font-family: var(--font-caveat);
-    font-size: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
     font-weight: 400;
-    fill: var(--ink-hand);
+    fill: rgba(0, 200, 255, 0.6);
     text-anchor: middle;
     pointer-events: none;
+    letter-spacing: 0.04em;
 }
 
 .map-label.locked {
     opacity: 0.3;
 }
 
-/* Chapter Container */
+/* Right page — printed paper */
+.right-page {
+    background: var(--bg-paper);
+    box-shadow:
+        4px 8px 40px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
+    transform: rotate(-0.4deg);
+    padding: 28px 32px 28px 32px;
+    overflow-y: auto;
+    height: 100%;
+    width: 100%;
+}
+
+.right-page::-webkit-scrollbar { width: 3px; }
+.right-page::-webkit-scrollbar-track { background: transparent; }
+.right-page::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+/* Chapter content */
 .chapter-container {
     width: 100%;
     font-size: 0.9rem;
     line-height: 1.6;
-    animation: fadeIn 200ms ease-out;
+    animation: fadeIn 250ms ease-out;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .chapter-header {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
     padding-bottom: 10px;
     border-bottom: 1px dashed var(--ink-dark);
+    color: var(--ink-dark);
 }
 
-.chapter-leg {
-    display: inline-block;
-    margin-right: 20px;
-}
-
-.chapter-location {
-    display: inline-block;
-}
-
-.chapter-date {
-    display: block;
-    font-size: 0.7rem;
-    margin-top: 2px;
-}
+.chapter-leg      { display: inline-block; margin-right: 20px; }
+.chapter-location { display: inline-block; }
+.chapter-date     { display: block; font-size: 0.68rem; margin-top: 2px; }
 
 .chapter-sketch {
-    width: 140px;
-    height: 140px;
-    margin: 20px 0 20px 0;
+    width: 130px;
+    height: 130px;
+    margin: 18px 0;
     border: 1px dashed var(--ink-dark);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .chapter-sketch img,
@@ -306,31 +315,22 @@ body::before {
     object-fit: cover;
 }
 
-.chapter-sketch-placeholder {
-    font-family: var(--font-caveat);
-    font-size: 0.9rem;
-    color: var(--ink-dark);
-    opacity: 0.5;
-    text-align: center;
-    padding: 10px;
-}
-
 .chapter-body {
     font-family: var(--font-caveat);
     font-size: 1rem;
     line-height: 1.8;
     color: var(--ink-hand);
-    margin: 20px 0;
-    max-width: 400px;
+    margin: 18px 0;
+    max-width: 380px;
 }
 
 .chapter-callout {
     border: 1px solid var(--ink-dark);
-    padding: 15px;
-    margin: 20px 0;
+    padding: 13px 15px;
+    margin: 18px 0;
     font-family: var(--font-caveat);
     font-style: italic;
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     color: var(--ink-hand);
 }
 
@@ -342,37 +342,30 @@ body::before {
     opacity: 0.6;
     transform: rotate(-8deg);
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 18px;
     animation: stampBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @keyframes stampBounce {
-    0% {
-        transform: rotate(-8deg) scale(0.5);
-        opacity: 0;
-    }
-    50% {
-        transform: rotate(-8deg) scale(1.1);
-    }
-    100% {
-        transform: rotate(-8deg) scale(1);
-        opacity: 0.6;
-    }
+    0%   { transform: rotate(-8deg) scale(0.5); opacity: 0; }
+    50%  { transform: rotate(-8deg) scale(1.1); }
+    100% { transform: rotate(-8deg) scale(1); opacity: 0.6; }
 }
 
 .chapter-status {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     letter-spacing: 0.05em;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 18px;
+    margin-bottom: 16px;
+    color: var(--ink-dark);
 }
 
 .chapter-contact {
     font-family: var(--font-caveat);
     font-size: 0.9rem;
     color: var(--ink-hand);
-    margin-top: 15px;
+    margin-top: 12px;
     opacity: 0.8;
 }
 
@@ -387,25 +380,28 @@ body::before {
     border-bottom-color: var(--amber-warn);
 }
 
-/* Bottom Bar */
+/* Bottom bar — cockpit instrument strip */
 .bottom-bar {
+    grid-column: 1 / -1;
+    grid-row: 3;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 40px;
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid var(--ink-dark);
+    gap: 28px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 180, 255, 0.18);
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    height: 40px;
-    grid-column: 1 / -1;
-    grid-row: 3;
+    font-size: 0.62rem;
+    height: 36px;
+    color: rgba(0, 200, 255, 0.45);
+    letter-spacing: 0.1em;
 }
 
 .dot-indicators {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
 }
 
 .indicator {
@@ -413,46 +409,138 @@ body::before {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    border: 1px solid var(--ink-dark);
+    border: 1px solid rgba(0, 180, 255, 0.3);
     background: transparent;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .indicator.connected {
-    background: var(--green-active);
-    border-color: var(--green-active);
+    background: var(--screen-green);
+    border-color: var(--screen-green);
+    box-shadow: 0 0 6px var(--screen-green);
 }
 
 .hint-text {
-    font-family: var(--font-caveat);
-    font-size: 0.9rem;
-    color: var(--ink-hand);
-    opacity: 0.7;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: rgba(0, 200, 255, 0.4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
-/* Responsive: Tablet */
+/* ─── Flight Overlay ─────────────────────────────────────── */
+.flight-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.flight-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Cockpit window: sky + clouds */
+.cockpit-window {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    background: linear-gradient(180deg,
+        #06111f  0%,
+        #0d2d50  20%,
+        #1a5080  45%,
+        #4d8eb5  68%,
+        #c8dfe8  85%,
+        #e8f2f6 100%
+    );
+}
+
+/* Center windshield strut */
+.cockpit-window::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 18px;
+    transform: translateX(-50%);
+    background: rgba(6, 10, 18, 0.88);
+    z-index: 3;
+}
+
+/* Dashboard fade at bottom */
+.cockpit-window::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 22%;
+    background: linear-gradient(to top, rgba(3, 7, 16, 1) 0%, transparent 100%);
+    z-index: 2;
+}
+
+.cockpit-glare {
+    position: absolute;
+    top: 6%;
+    left: 8%;
+    width: 28%;
+    height: 42%;
+    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.flight-cloud {
+    position: absolute;
+    border-radius: 60px;
+    background: #fff;
+    opacity: 0.88;
+    animation: flyCloud linear infinite;
+    z-index: 1;
+    box-shadow: 0 4px 24px rgba(255, 255, 255, 0.35);
+}
+
+@keyframes flyCloud {
+    from { transform: translateX(110vw); }
+    to   { transform: translateX(-120%); }
+}
+
+/* HUD readout below cockpit window */
+.flight-hud {
+    padding: 20px 48px 26px;
+    background: rgba(2, 5, 14, 0.95);
+    border-top: 1px solid rgba(0, 200, 255, 0.22);
+    font-family: var(--font-mono);
+    color: rgba(0, 200, 255, 0.9);
+    font-size: 0.82rem;
+    line-height: 1.95;
+    letter-spacing: 0.07em;
+    white-space: pre;
+    min-height: 155px;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 1279px) {
     #logbook {
         width: 100%;
         height: 100vh;
-        padding: 20px;
     }
 
-    .logbook-spread {
-        padding: 20px;
-    }
+    .logbook-spread { padding: 20px; }
 
     .map-container {
         max-width: 300px;
         max-height: 225px;
     }
-
-    .right-page {
-        padding: 0 20px;
-    }
 }
 
-/* Responsive: Mobile */
 @media (max-width: 767px) {
     #logbook {
         width: 100%;
@@ -460,32 +548,30 @@ body::before {
     }
 
     .logbook-spread {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
         padding: 15px;
     }
 
     .logbook-header {
+        grid-column: 1;
         margin-bottom: 10px;
-        font-size: 0.65rem;
+        font-size: 0.58rem;
     }
 
-    .left-page,
-    .right-page {
-        width: 100%;
+    .logbook-spread > .left-page {
+        grid-column: 1;
+        grid-row: 2;
+        height: 210px;
+        margin-bottom: 12px;
     }
 
-    .left-page {
-        height: 40vh;
-        margin-bottom: 20px;
-    }
+    .binding { display: none; }
 
-    .right-page {
-        height: 50vh;
-        padding: 0 15px;
-    }
-
-    .binding {
-        display: none;
+    .logbook-spread > .right-page {
+        grid-column: 1;
+        grid-row: 3;
+        transform: none;
     }
 
     .map-container {
@@ -494,20 +580,10 @@ body::before {
     }
 
     .bottom-bar {
-        margin-top: 10px;
-        padding-top: 10px;
-        gap: 10px;
-        flex-direction: column;
-        align-items: flex-start;
+        grid-column: 1;
+        grid-row: 4;
         height: auto;
-    }
-
-    .dot-indicators {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .hint-text {
-        font-size: 0.85rem;
+        flex-wrap: wrap;
+        gap: 8px;
     }
 }

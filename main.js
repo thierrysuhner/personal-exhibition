@@ -17,16 +17,14 @@ class FlightLogApp {
 
   async runIntroSequence() {
     const overlay = document.getElementById('intro-overlay');
-    const textEl = document.getElementById('intro-text');
+    const textEl  = document.getElementById('intro-text');
 
-    // Warning text
     const warning = 'WARNING: NON-STANDARD ROUTE DETECTED';
     await this.typeText(textEl, warning, 35, '#8B1A1A', '2rem');
     await this.typeDots(textEl, 3, 220);
 
     await this.sleep(700);
 
-    // Clear and next line
     textEl.innerHTML = '';
     const initiating = 'INITIATING FLIGHT LOG';
     await this.typeText(textEl, initiating, 35, '#C97D10', '1rem');
@@ -34,21 +32,18 @@ class FlightLogApp {
 
     await this.sleep(500);
 
-    // Fade out overlay
     overlay.classList.add('fade-out');
 
-    // Show logbook
     const logbook = document.getElementById('logbook');
     logbook.classList.remove('hidden');
 
-    // Initialize map and chapters after intro
     setTimeout(() => {
       this.initializeApp();
     }, 400);
   }
 
   async typeText(el, text, delay, color, size) {
-    el.style.color = color;
+    el.style.color    = color;
     el.style.fontSize = size;
 
     for (let char of text) {
@@ -73,6 +68,7 @@ class FlightLogApp {
     this.renderChapter(this.state.currentChapter);
     this.attachEventListeners();
     this.updateIndicators();
+    this.updateHintText();
   }
 
   attachEventListeners() {
@@ -81,15 +77,80 @@ class FlightLogApp {
       this.state.activeOrigin = dotId;
     });
 
-    window.addEventListener('chapterConnected', (e) => {
+    window.addEventListener('chapterConnected', async (e) => {
+      if (this.state.isAnimating) return;
+      this.state.isAnimating = true;
+
       const { chapterId } = e.detail;
-      this.state.currentChapter = chapterId;
+      const fromChapterId = this.state.currentChapter;
+
       this.state.connectedDots.push(chapterId);
       this.saveStateToStorage();
-      this.renderChapter(chapterId);
       this.updateIndicators();
+
+      await this.triggerFlightAnimation(fromChapterId, chapterId);
+
+      this.state.currentChapter = chapterId;
+      this.state.isAnimating = false;
+      this.renderChapter(chapterId);
       this.updateHintText();
     });
+  }
+
+  async triggerFlightAnimation(fromChapterId, toChapterId) {
+    const overlay      = document.getElementById('flight-overlay');
+    const hud          = document.getElementById('flight-hud');
+    const cockpitWin   = document.getElementById('cockpit-window');
+
+    const fromChapter  = chapters.find(c => c.id === fromChapterId);
+    const toChapter    = chapters.find(c => c.id === toChapterId);
+
+    // Rebuild clouds each time (keep the glare div)
+    const glare = cockpitWin.querySelector('.cockpit-glare');
+    cockpitWin.innerHTML = '';
+    if (glare) cockpitWin.appendChild(glare);
+
+    const cloudDefs = [
+      { top: '30%', w: 260, h: 62, delay:  0,    dur: 3.0 },
+      { top: '44%', w: 180, h: 48, delay: -1.1,  dur: 2.7 },
+      { top: '37%', w: 210, h: 54, delay: -0.5,  dur: 3.4 },
+      { top: '55%', w: 140, h: 38, delay: -1.8,  dur: 2.3 },
+      { top: '26%', w: 230, h: 58, delay: -0.3,  dur: 3.7 },
+      { top: '62%', w: 120, h: 32, delay: -2.1,  dur: 2.1 },
+    ];
+
+    cloudDefs.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'flight-cloud';
+      el.style.cssText =
+        `top:${c.top};width:${c.w}px;height:${c.h}px;` +
+        `animation-duration:${c.dur}s;animation-delay:${c.delay}s`;
+      cockpitWin.appendChild(el);
+    });
+
+    hud.textContent = '';
+    overlay.classList.add('active');
+
+    const pad = (s, n) => String(s).padEnd(n);
+
+    const lines = [
+      `${pad('DEP', 9)}·  ${fromChapter.location}`,
+      `${pad('ARR', 9)}·  ${toChapter.location}`,
+      ``,
+      `${pad('STATUS', 9)}   AIRBORNE`,
+      `${pad('PROGRESS', 9)}   ${'█'.repeat(16)}  COMPLETE`,
+    ];
+
+    for (const line of lines) {
+      await this.sleep(280);
+      hud.textContent += line + '\n';
+    }
+
+    await this.sleep(2400);
+
+    // Fade out
+    overlay.classList.remove('active');
+    await this.sleep(550);
   }
 
   renderChapter(chapterId) {
@@ -99,8 +160,7 @@ class FlightLogApp {
     const container = document.getElementById('chapter-container');
     container.innerHTML = '';
 
-    // Fade out, update, fade in
-    container.style.opacity = '0';
+    container.style.opacity    = '0';
     container.style.transition = 'opacity 200ms ease-out';
 
     setTimeout(() => {
@@ -118,16 +178,10 @@ class FlightLogApp {
       </div>
     `;
 
-    // Chapter sketch
     html += `<div class="chapter-sketch" id="sketch-container"></div>`;
-
-    // Body text
     html += `<div class="chapter-body">${chapter.body}</div>`;
-
-    // Callout
     html += `<div class="chapter-callout">${chapter.callout}</div>`;
 
-    // Stamp or status
     if (chapter.stampText) {
       html += `<div class="chapter-stamp">${chapter.stampText}</div>`;
     } else {
@@ -144,11 +198,9 @@ class FlightLogApp {
       }
     }
 
-    // Create container and set HTML
     const div = document.createElement('div');
     div.innerHTML = html;
 
-    // Load sketch after HTML is set
     setTimeout(() => {
       this.loadSketch(chapter.sketchAsset, chapter.id);
     }, 100);
@@ -166,30 +218,27 @@ class FlightLogApp {
       const svg = await res.text();
       container.innerHTML = svg;
     } catch {
-      // Fallback: rough.js rectangle
-      this.drawRoughSketch(container, `CHAPTER ${chapterId}`);
+      this.drawFallbackSketch(container, `CHAPTER ${chapterId}`);
     }
   }
 
-  drawRoughSketch(container, label) {
+  drawFallbackSketch(container, label) {
     const canvas = document.createElement('canvas');
-    canvas.width = 140;
-    canvas.height = 140;
+    canvas.width  = 130;
+    canvas.height = 130;
     const ctx = canvas.getContext('2d');
 
-    // Draw dashed border
     ctx.strokeStyle = '#1A1A1A';
-    ctx.lineWidth = 1;
+    ctx.lineWidth   = 1;
     ctx.setLineDash([4, 4]);
-    ctx.strokeRect(5, 5, 130, 130);
+    ctx.strokeRect(5, 5, 120, 120);
 
-    // Draw label text
     ctx.setLineDash([]);
-    ctx.font = '900 0.9rem "Caveat", cursive';
-    ctx.fillStyle = '#2C2C2C';
-    ctx.textAlign = 'center';
+    ctx.font         = '900 0.9rem "Caveat", cursive';
+    ctx.fillStyle    = '#2C2C2C';
+    ctx.textAlign    = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(label, 70, 70);
+    ctx.fillText(label, 65, 65);
 
     container.appendChild(canvas);
   }
@@ -226,12 +275,8 @@ class FlightLogApp {
   }
 }
 
-// Initialize when DOM is ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    new FlightLogApp();
-  });
+  document.addEventListener('DOMContentLoaded', () => new FlightLogApp());
 } else {
-  // DOM already loaded (e.g., if script runs after DOM is ready)
   new FlightLogApp();
 }

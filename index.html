@@ -21,13 +21,13 @@
             <!-- Header -->
             <header class="logbook-header">
                 <span class="header-title">FLIGHT LOG // T.S.</span>
+                <span class="header-meta" id="header-meta">ROUTE ACTIVE</span>
             </header>
 
-            <!-- Left Page: Route Map -->
+            <!-- Left Page: Route Map (EFB) -->
             <section class="left-page">
                 <div id="map-container" class="map-container">
                     <svg id="map-svg" class="map-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-                        <!-- Map background will be drawn here -->
                     </svg>
                 </div>
             </section>
@@ -35,10 +35,9 @@
             <!-- Center Binding -->
             <div class="binding"></div>
 
-            <!-- Right Page: Chapter Content -->
+            <!-- Right Page: Flight Plan Paper -->
             <section class="right-page">
                 <div id="chapter-container" class="chapter-container">
-                    <!-- Chapter content will be rendered here -->
                 </div>
             </section>
 
@@ -56,8 +55,15 @@
         </div>
     </main>
 
+    <!-- Flight Animation Overlay (body-level to avoid stacking context issues) -->
+    <div id="flight-overlay" class="flight-overlay">
+        <div class="cockpit-window" id="cockpit-window">
+            <div class="cockpit-glare"></div>
+        </div>
+        <div class="flight-hud" id="flight-hud"></div>
+    </div>
+
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/roughjs@4.5.0/bundled/rough.min.js"></script>
     <script src="chapters.js"></script>
     <script src="map.js"></script>
     <script src="main.js"></script>
