@@ -1,5 +1,5 @@
 class RouteMap {
-  constructor() {
+  constructor(restoredConnectedDots = []) {
     this.svg = document.getElementById('map-svg');
     this.state = {
       dots: ['CH-LENZ', 'CH-ARMY', 'CH-HSG', 'CA-VAN', 'XX-NEXT'],
@@ -15,7 +15,30 @@ class RouteMap {
       previewLine: null
     };
 
+    if (restoredConnectedDots.length > 1) {
+      this.applyRestoredState(restoredConnectedDots);
+    }
+
     this.init();
+  }
+
+  applyRestoredState(connectedChapterIds) {
+    for (let i = 1; i < connectedChapterIds.length; i++) {
+      const fromDot = chapters.find(c => c.id === connectedChapterIds[i - 1])?.dot;
+      const toDot   = chapters.find(c => c.id === connectedChapterIds[i])?.dot;
+      if (fromDot && toDot) {
+        this.state.connectedPairs.push({ from: fromDot, to: toDot });
+        this.state.dotStates[toDot] = 'connected';
+      }
+    }
+
+    const lastDot = chapters.find(c => c.id === connectedChapterIds[connectedChapterIds.length - 1])?.dot;
+    if (lastDot) {
+      const idx = this.state.dots.indexOf(lastDot);
+      if (idx >= 0 && idx < this.state.dots.length - 1) {
+        this.state.dotStates[this.state.dots[idx + 1]] = 'ready';
+      }
+    }
   }
 
   init() {
@@ -29,7 +52,6 @@ class RouteMap {
 
     const viewBox = this.svg.viewBox.baseVal;
 
-    // Dark EFB background
     const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     bg.setAttribute('x', 0);
     bg.setAttribute('y', 0);
@@ -38,7 +60,6 @@ class RouteMap {
     bg.setAttribute('fill', '#050e1c');
     this.svg.appendChild(bg);
 
-    // Subtle nav-chart grid
     const grid = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     grid.setAttribute('stroke', 'rgba(0,180,255,0.06)');
     grid.setAttribute('stroke-width', '0.5');
@@ -56,7 +77,6 @@ class RouteMap {
     }
     this.svg.appendChild(grid);
 
-    // Map border
     const mapBase = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     mapBase.setAttribute('x', 5);
     mapBase.setAttribute('y', 5);
@@ -67,7 +87,6 @@ class RouteMap {
     mapBase.setAttribute('fill', 'none');
     this.svg.appendChild(mapBase);
 
-    // Ocean crossing (subtle dashed line CH-HSG → CA-VAN)
     const hsg = this.getPixelPosition('CH-HSG');
     const van = this.getPixelPosition('CA-VAN');
     const oceanLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -80,12 +99,10 @@ class RouteMap {
     oceanLine.setAttribute('stroke-dasharray', '3,5');
     this.svg.appendChild(oceanLine);
 
-    // Draw connected lines first (behind dots)
     for (const pair of this.state.connectedPairs) {
       this.drawConnectedLine(pair.from, pair.to);
     }
 
-    // Draw dots
     for (const dotId of this.state.dots) {
       this.drawDot(dotId);
     }
@@ -110,13 +127,6 @@ class RouteMap {
     };
     this.svg.appendChild(img);
 
-    fetch(`assets/drawings/dot-${dotId}.svg`)
-      .catch(() => {
-        if (img.parentNode) img.remove();
-        this.drawRoughDot(dotId, px, py, dotState);
-      });
-
-    // Label
     const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     label.setAttribute('x', px);
     label.setAttribute('y', py + 22);
@@ -158,12 +168,6 @@ class RouteMap {
       this.drawRoughLine(fromPos, toPos);
     };
     this.svg.appendChild(svgPath);
-
-    fetch(`assets/drawings/line-${lineNum}-${lineNum + 1}.svg`)
-      .catch(() => {
-        if (svgPath.parentNode) svgPath.remove();
-        this.drawRoughLine(fromPos, toPos);
-      });
   }
 
   drawRoughLine(fromPos, toPos) {
