@@ -57,8 +57,10 @@
 
     <!-- Flight Animation Overlay (body-level to avoid stacking context issues) -->
     <div id="flight-overlay" class="flight-overlay">
-        <div class="cockpit-window" id="cockpit-window">
+        <canvas id="aerial-canvas" class="aerial-canvas"></canvas>
+        <div class="cockpit-frame">
             <div class="cockpit-glare"></div>
+            <div class="cockpit-center-strut"></div>
         </div>
         <div class="flight-hud" id="flight-hud"></div>
     </div>
