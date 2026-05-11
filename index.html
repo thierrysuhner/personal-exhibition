@@ -57,9 +57,8 @@
 
     <!-- Flight Animation Overlay (body-level to avoid stacking context issues) -->
     <div id="flight-overlay" class="flight-overlay">
-        <video id="flight-video" class="flight-video" autoplay loop muted playsinline>
-            <source src="assets/flight-video.mp4" type="video/mp4">
-            <source src="https://archive.org/download/FindingFootageCloudsTimeLapse/FindingFootageCloudsTimeLapse.mp4" type="video/mp4">
+        <video id="flight-video" class="flight-video" muted playsinline preload="metadata">
+            <source src="assets/timelapse.mp4" type="video/mp4">
         </video>
         <div class="cockpit-vignette"></div>
         <div class="flight-hud" id="flight-hud"></div>

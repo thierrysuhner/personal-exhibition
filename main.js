@@ -115,8 +115,21 @@ class FlightLogApp {
     overlay.classList.add('active');
 
     if (video) {
-      video.currentTime = 0;
-      video.play().catch(() => {});
+      const legIndex = fromChapterId - 1;      // 0 = first leg, 3 = last leg
+      const numLegs  = chapters.length - 1;   // 4
+
+      const startSegment = () => {
+        if (isFinite(video.duration) && video.duration > 0) {
+          video.currentTime = (legIndex / numLegs) * video.duration;
+        }
+        video.play().catch(() => {});
+      };
+
+      if (video.readyState >= 1) {
+        startSegment();
+      } else {
+        video.addEventListener('loadedmetadata', startSegment, { once: true });
+      }
     }
 
     const pad = (s, n) => String(s).padEnd(n);
