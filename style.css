@@ -176,6 +176,38 @@ body {
     text-shadow: 0 0 8px rgba(0, 230, 118, 0.35);
 }
 
+/* Cockpit instrument tooltips */
+.instrument {
+    position: relative;
+}
+
+.instrument[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(4, 14, 30, 0.96);
+    color: rgba(0, 220, 255, 0.95);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    white-space: nowrap;
+    padding: 6px 10px;
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 160, 255, 0.1);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    z-index: 200;
+}
+
+.instrument[data-tooltip]:hover::after {
+    opacity: 1;
+}
+
 /* Pages */
 .logbook-spread > .left-page {
     grid-column: 1;
