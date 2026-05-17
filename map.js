@@ -185,7 +185,7 @@ class RouteMap {
 
   drawLegTitleLeft(chapter, px, py, dotState) {
     const title = chapter.title;
-    const maxCharsPerLine = 14;
+    const maxCharsPerLine = 16;
     let lines = [];
 
     // Split title into lines that fit the space
@@ -201,16 +201,16 @@ class RouteMap {
     }
     if (currentLine) lines.push(currentLine.trim());
 
-    // Draw each line of the title to the left
+    // Draw each line of the title below the dot
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     g.setAttribute('class', `leg-title ${dotState}`);
 
     for (let i = 0; i < lines.length; i++) {
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('x', px - 50);
-      text.setAttribute('y', py - 4 + (i * 14));
+      text.setAttribute('x', px);
+      text.setAttribute('y', py + 32 + (i * 13));
       text.setAttribute('class', 'leg-title-text');
-      text.setAttribute('text-anchor', 'end');
+      text.setAttribute('text-anchor', 'middle');
       text.textContent = lines[i];
       g.appendChild(text);
     }
