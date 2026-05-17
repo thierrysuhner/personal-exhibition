@@ -10,11 +10,11 @@ const pilot = {
 const preflightChecklist = [
   {
     group: "AIRFRAME · LANGUAGES",
-    items: ["Python", "Java", "TypeScript / JavaScript", "Go", "SQL", "Bash"]
+    items: ["Python", "Java", "TypeScript / JavaScript", "SQL", "Bash"]
   },
   {
     group: "AVIONICS · FRAMEWORKS & TECH",
-    items: ["Spring Boot + REST APIs", "React / Node.js", "FastAPI", "TensorFlow / PyTorch", "Docker", "Domain-Driven Design"]
+    items: ["Spring Boot + REST APIs", "React / Node.js", "TensorFlow / PyTorch", "Docker", "Domain-Driven Design"]
   },
   {
     group: "NAV · TOOLS",
@@ -22,7 +22,7 @@ const preflightChecklist = [
   },
   {
     group: "COMMS · LANGUAGES (HUMAN)",
-    items: ["German (native)", "English (C2)", "French (B2)", "Italian (A2)"]
+    items: ["German (native)", "English (C2)", "French (B2)"]
   },
   {
     group: "PILOT · COMMAND & LEADERSHIP",
@@ -44,8 +44,8 @@ const clearanceLetter = {
   from: "T. SUHNER, FLIGHT TS-001",
   body: [
     "I'm drawn to Google because of the scale - not scale as an abstraction, but the engineering reality of building infrastructure that millions of people rely on without ever thinking about. I want to work on problems where the difficulty is intrinsic to the domain, not imposed by tooling, and where the person two desks away has already solved something I haven't yet imagined.",
-    "The flight log behind this letter is the honest account. Mediamatician at fifteen - production code, real clients, Friday deadlines. Swiss Army officer, second-in-command of 130 people under pressure. Computer Science at HSG: layered Java systems, ML deployment, Domain-Driven Design, API development in Python and Go. VP of a student consulting club that competes internationally and wins. The thread across all of it: I look for environments where technical depth and real stakes converge.",
-    "On day one I'd bring software design, REST API development, and data-driven problem-solving across Python, Java, and Go; fluency in Linux/Unix, Docker, and GitHub-based workflows; and the habit - formed at fifteen, not taught - of shipping software that has to work.",
+    "The flight log behind this letter is the honest account. Mediamatician at fifteen - production code, real clients, Friday deadlines. Swiss Army officer, second-in-command of 130 people under pressure. Computer Science at HSG: layered Java systems, ML deployment, Domain-Driven Design, API development in Python. VP of a student consulting club that competes internationally and wins. The thread across all of it: I look for environments where technical depth and real stakes converge.",
+    "On day one I'd bring software design, REST API development, and data-driven problem-solving across Python and Java; fluency in Linux/Unix, Docker, and GitHub-based workflows; and the habit - formed at fifteen, not taught - of shipping software that has to work.",
     "I'd welcome 30 minutes with someone on the engineering team in Zürich. Not to pitch a generic application - to ask specific questions about the work."
   ],
   signoff: "Awaiting clearance,\nT. Suhner"
@@ -152,7 +152,7 @@ const chapters = [
     contactEmail: "thierry.suhner@gmx.ch",
     contactLinkedin: "linkedin.com/in/thierrysuhner",
     cargo: [
-      { label: "Python · Java · Go",                 url: "https://github.com/thierrysuhner",        note: "Production systems, backend design" },
+      { label: "Python · Java",                       url: "https://github.com/thierrysuhner",        note: "Production systems, backend design" },
       { label: "systems · distributed thinking",     url: "cv.pdf",                                  note: "Scale-aware engineering, technical leadership" }
     ],
     isFinalDestination: true
