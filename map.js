@@ -165,7 +165,7 @@ class RouteMap {
     const chapter = chapters.find(c => c.dot === dotId);
 
     const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-    img.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `assets/drawings/dot-${chapter.id}.svg`);
+    img.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `assets/drawings/dot-${chapter.id}.png`);
     img.setAttribute('x', px - 12);
     img.setAttribute('y', py - 12);
     img.setAttribute('width', 24);
@@ -243,7 +243,7 @@ class RouteMap {
 
     const lineNum = chapters.findIndex(c => c.dot === fromId) + 1;
     const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-    svgPath.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `assets/drawings/line-${lineNum}-${lineNum + 1}.svg`);
+    svgPath.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `assets/drawings/line-${lineNum}-${lineNum + 1}.png`);
     svgPath.setAttribute('x', Math.min(fromPos.px, toPos.px) - 5);
     svgPath.setAttribute('y', Math.min(fromPos.py, toPos.py) - 5);
     svgPath.setAttribute('width', Math.abs(toPos.px - fromPos.px) + 10);
