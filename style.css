@@ -73,6 +73,26 @@ body {
     line-height: 1.5;
 }
 
+.intro-skip {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.35);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.intro-skip:hover {
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.5);
+}
+
 .intro-overlay.fade-out {
     animation: fadeOut 400ms ease-out forwards;
 }

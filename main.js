@@ -20,6 +20,13 @@ class FlightLogApp {
     const overlay = document.getElementById('intro-overlay');
     const textEl  = document.getElementById('intro-text');
 
+    // Skip button
+    const skipBtn = document.createElement('button');
+    skipBtn.textContent = 'skip intro';
+    skipBtn.className = 'intro-skip';
+    skipBtn.onclick = () => this.skipIntro();
+    overlay.appendChild(skipBtn);
+
     // Line 1 — warning
     const line1 = document.createElement('div');
     textEl.appendChild(line1);
@@ -37,14 +44,21 @@ class FlightLogApp {
 
     await this.sleep(500);
 
-    overlay.classList.add('fade-out');
-    overlay.style.pointerEvents = 'none'; // kill clicks immediately, don't rely on CSS keyframe
+    this.skipIntro();
+  }
 
-    const logbook = document.getElementById('logbook');
-    logbook.classList.remove('hidden');
+  skipIntro() {
+    if (this._appInitialized) return;
+    this._appInitialized = true;
+
+    const overlay = document.getElementById('intro-overlay');
+    overlay.classList.add('fade-out');
+    overlay.style.pointerEvents = 'none';
+
+    document.getElementById('logbook').classList.remove('hidden');
 
     setTimeout(() => {
-      overlay.style.display = 'none'; // fully remove from stacking context after fade
+      overlay.style.display = 'none';
       this.initializeApp();
     }, 420);
   }

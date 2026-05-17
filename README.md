@@ -4,7 +4,7 @@ An interactive pilot's logbook as a personal portfolio, telling a non-standard c
 
 **Core concept:** Formal printed aviation logbook structure + hand-drawn personal annotations. Visitors connect the dots literally—click waypoints on the route map, drag to the next, watch a hand-drawn line animate, and the corresponding chapter reveals itself.
 
-**Tech Stack:** Vanilla HTML, CSS, JavaScript. No framework. rough.js for placeholder graphics (replaced with hand-drawn SVGs). Google Fonts: Caveat (handwritten) + IBM Plex Mono (formal).
+**Tech Stack:** Vanilla HTML, CSS, JavaScript. No framework. Google Fonts: Caveat (handwritten) + IBM Plex Mono (formal) + Inter (body text).
 
 ## Quick Start
 
@@ -36,11 +36,13 @@ npx serve
 ├── chapters.js             # Chapter content data array
 ├── map.js                  # Route map logic, dot interaction, line animation
 ├── assets/
-│   ├── drawings/           # Hand-drawn SVG assets (drop zone)
-│   │   ├── README.md       # Asset naming conventions
-│   │   ├── dot-*.svg       # Waypoint markers (optional)
-│   │   ├── line-*-*.svg    # Route lines (optional)
-│   │   └── sketch-*.svg    # Chapter illustrations (optional)
+│   ├── drawings/           # Hand-drawn PNG assets
+│   │   ├── README.md       # Asset notes
+│   │   ├── Leg_1.PNG       # Chapter 1 illustration
+│   │   ├── Leg_2.png       # Chapter 2 illustration
+│   │   ├── Leg_3.PNG       # Chapter 3 illustration
+│   │   ├── Leg_4.PNG       # Chapter 4 illustration
+│   │   └── Leg_5.PNG       # Chapter 5 illustration
 │   └── textures/           # Texture assets (reserved)
 └── README.md               # This file
 ```
@@ -76,33 +78,17 @@ For the final chapter (id: 5), the last chapter uses a different layout:
 }
 ```
 
-### Step 2: Add Hand-Drawn SVG Assets (Optional)
+### Step 2: Add Hand-Drawn Illustrations
 
-All assets are optional. If a file is missing, the site falls back to rough.js placeholders automatically.
+Drop PNG files into `assets/drawings/` with these exact filenames:
 
-Drop SVG files into `assets/drawings/` with these exact filenames:
+- `Leg_1.PNG` — Chapter 1 (Early Responsibility)
+- `Leg_2.png` — Chapter 2 (Pressure & Self-Override)
+- `Leg_3.PNG` — Chapter 3 (Building Direction)
+- `Leg_4.PNG` — Chapter 4 (Collaboration at Intensity)
+- `Leg_5.PNG` — Chapter 5 (Systems at Scale)
 
-**Waypoint dots:**
-- `dot-CH-LENZ.svg` (Lenzburg)
-- `dot-CH-ARMY.svg` (Army/SPHAIR)
-- `dot-CH-HSG.svg` (St. Gallen)
-- `dot-CA-VAN.svg` (Vancouver)
-- `dot-XX-NEXT.svg` (Pending)
-
-**Route lines (animated):**
-- `line-1-2.svg` → Lenzburg → Army
-- `line-2-3.svg` → Army → St. Gallen
-- `line-3-4.svg` → St. Gallen → Vancouver
-- `line-4-5.svg` → Vancouver → Pending
-
-**Chapter sketches:**
-- `sketch-mediamatiker.svg` (Chapter 1)
-- `sketch-army.svg` (Chapter 2)
-- `sketch-hsg.svg` (Chapter 3)
-- `sketch-caseit.svg` (Chapter 4)
-- `sketch-next.svg` (Chapter 5)
-
-See `assets/drawings/README.md` for SVG structure guidelines.
+If a file is missing, the site shows a simple placeholder automatically.
 
 ## Layout
 
@@ -145,16 +131,16 @@ INITIATING FLIGHT LOG...                [amber]
                                         [pause 700ms, then fade]
 ```
 
-No skip button. Automatic. Total ~5 seconds.
+A "skip intro" button appears bottom-right for users who want to proceed immediately. Total ~5 seconds if not skipped.
 
 ### Route Map (Left Page)
 
 **Dot Positions (percentage-based):**
-- CH-LENZ (Lenzburg): 20% left, 70% top
-- CH-ARMY (Army/SPHAIR): 25% left, 40% top
-- CH-HSG (St. Gallen): 45% left, 55% top
-- CA-VAN (Vancouver): 72% left, 35% top
-- XX-NEXT (Pending): 88% left, 50% top
+- CH-LENZ (Early Responsibility): 20% left, 70% top
+- CH-ARMY (Pressure & Self-Override): 25% left, 40% top
+- CH-HSG (Building Direction): 45% left, 55% top
+- CA-VAN (Collaboration at Intensity): 72% left, 35% top
+- CH-GOOG (Systems at Scale): 88% left, 50% top
 
 **Dot States:**
 - `locked`: grey, no label, not clickable (other dots before connected)
@@ -309,14 +295,7 @@ const dotPositions = {
 
 ## Fallback System
 
-Every SVG asset has a rough.js fallback. If a file is missing or fails to load:
-
-- **Dots:** rough circle, green, 8px radius
-- **Lines:** rough line, hand-drawn wobble, 2px stroke
-- **Sketches:** rough dashed rectangle + chapter title text
-- **Map base:** rough rectangle outline
-
-No errors. No blank spaces. Just graceful degradation.
+If a PNG illustration is missing or fails to load, the site renders a simple dashed placeholder with the chapter number. No errors, no blank spaces.
 
 ## Browser Support
 
@@ -347,8 +326,8 @@ This project is yours. Use, modify, share however you wish.
 
 ## Credits
 
-- **Fonts:** Google Fonts (Caveat, IBM Plex Mono)
-- **SVG Graphics:** rough.js (for fallback placeholders)
+- **Fonts:** Google Fonts (Caveat, IBM Plex Mono, Inter)
+- **Illustrations:** Hand-drawn PNGs
 - **Interaction:** Vanilla JavaScript, SVG animations
 
 ---
