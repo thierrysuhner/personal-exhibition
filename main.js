@@ -337,7 +337,8 @@ class FlightLogApp {
     const container = document.getElementById('sketch-container');
     if (!container) return;
 
-    if (sketchAsset.endsWith('.png') || sketchAsset.endsWith('.jpg') || sketchAsset.endsWith('.webp')) {
+    const ext = sketchAsset.split('.').pop().toLowerCase();
+    if (ext === 'png' || ext === 'jpg' || ext === 'jpeg' || ext === 'webp') {
       const img = document.createElement('img');
       img.src = `assets/drawings/${sketchAsset}`;
       img.alt = `Leg ${chapterId} sketch`;
