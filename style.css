@@ -291,6 +291,32 @@ body {
     opacity: 0.3;
 }
 
+/* Target dot — amber fast pulse when origin is selected */
+.map-dot.target {
+    animation: targetPulse 0.7s ease-in-out infinite !important;
+}
+
+@keyframes targetPulse {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(201,125,16,0.7)); }
+    50%       { filter: drop-shadow(0 0 18px rgba(201,125,16,1)); }
+}
+
+/* "CLICK TO CONNECT" label above target dot */
+.map-target-text {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 500;
+    fill: rgba(201, 125, 16, 0.95);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    animation: targetTextPulse 0.7s ease-in-out infinite;
+}
+
+@keyframes targetTextPulse {
+    0%, 100% { opacity: 0.7; }
+    50%       { opacity: 1; }
+}
+
 /* "CLICK TO START" instruction label */
 .map-instruction-text {
     font-family: var(--font-mono);

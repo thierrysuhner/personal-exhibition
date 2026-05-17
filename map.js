@@ -289,7 +289,52 @@ class RouteMap {
   selectOriginDot(dotId) {
     this.removeStartInstruction();
     this.state.activeOrigin = dotId;
+    this.highlightNextTarget(dotId);
     window.dispatchEvent(new CustomEvent('originSelected', { detail: { dotId } }));
+  }
+
+  highlightNextTarget(originDotId) {
+    this.clearTargetHighlight();
+    const nextDotId = this.getNextDotId(originDotId);
+    if (!nextDotId) return;
+
+    // Pulse the next dot in amber
+    const dotEl = this.svg.querySelector(`[data-dot-id="${nextDotId}"]`);
+    if (dotEl) dotEl.classList.add('target');
+
+    // Draw a "CLICK HERE" label + small bounce arrow near the target dot
+    const { px, py } = this.getPixelPosition(nextDotId);
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('data-target-hint', 'true');
+    g.style.pointerEvents = 'none';
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', px);
+    text.setAttribute('y', py - 20);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('class', 'map-target-text');
+    text.textContent = 'CLICK TO CONNECT';
+    g.appendChild(text);
+
+    // Small downward tick mark
+    const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    tick.setAttribute('x1', px);
+    tick.setAttribute('y1', py - 14);
+    tick.setAttribute('x2', px);
+    tick.setAttribute('y2', py - 8);
+    tick.setAttribute('stroke', 'rgba(201,125,16,0.85)');
+    tick.setAttribute('stroke-width', '1.5');
+    g.appendChild(tick);
+
+    this.svg.appendChild(g);
+  }
+
+  clearTargetHighlight() {
+    // Remove amber class from any previously targeted dot
+    this.svg.querySelectorAll('.map-dot.target').forEach(el => el.classList.remove('target'));
+    // Remove hint label
+    const hint = this.svg.querySelector('[data-target-hint]');
+    if (hint) hint.remove();
   }
 
   getNextDotId(currentDotId) {
@@ -313,6 +358,7 @@ class RouteMap {
     }
 
     this.state.activeOrigin = null;
+    this.clearTargetHighlight();
     this.redraw();
 
     const nextChapter = chapters.find(c => c.dot === toId);
