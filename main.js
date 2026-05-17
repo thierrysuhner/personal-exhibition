@@ -423,32 +423,54 @@ class FlightLogApp {
   async runPreflightAnimation() {
     const drawer = document.getElementById('checklist-drawer');
 
-    // Render with empty boxes
+    // Render with empty boxes (animated mode) then open drawer
     this.renderChecklist(true);
+    this.addDepartureButton(drawer);
     drawer.classList.add('open', 'animating');
     drawer.setAttribute('aria-hidden', 'false');
 
-    // Brief pause so drawer slides in before we start ticking
-    await this.sleep(600);
+    // Wait for the user to click "COMPLETE CHECKLIST & DEPART"
+    await this.waitForDeparture(drawer);
 
+    // Tick every box in sequence
     const items = drawer.querySelectorAll('.checklist-item');
     for (const item of items) {
       item.classList.add('ticking');
-      await this.sleep(65);
+      await this.sleep(55);
       item.classList.remove('ticking');
       item.classList.add('ticked');
-      await this.sleep(38);
+      await this.sleep(30);
     }
 
-    // Hold a moment so it reads as "all clear"
-    await this.sleep(700);
+    // Brief "all clear" hold
+    await this.sleep(600);
 
-    // Slide the drawer closed before the video starts
+    // Close drawer, then flight begins
     drawer.classList.remove('open', 'animating');
     drawer.setAttribute('aria-hidden', 'true');
-
-    // Small gap before the flight animation overlay appears
     await this.sleep(380);
+  }
+
+  addDepartureButton(drawer) {
+    // Remove any existing departure button first
+    drawer.querySelector('.depart-btn')?.remove();
+    const btn = document.createElement('button');
+    btn.className = 'depart-btn';
+    btn.type = 'button';
+    btn.textContent = 'COMPLETE CHECKLIST & DEPART';
+    drawer.appendChild(btn);
+  }
+
+  waitForDeparture(drawer) {
+    return new Promise(resolve => {
+      const btn = drawer.querySelector('.depart-btn');
+      if (!btn) { resolve(); return; }
+      btn.addEventListener('click', () => {
+        btn.disabled = true;
+        btn.textContent = 'RUNNING CHECKS...';
+        resolve();
+      }, { once: true });
+    });
   }
 
   closeChecklistDrawer() {
