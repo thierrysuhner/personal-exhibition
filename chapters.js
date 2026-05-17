@@ -44,8 +44,8 @@ const clearanceLetter = {
   from: "T. SUHNER, FLIGHT TS-001",
   body: [
     "I'm drawn to Google because of the scale - not scale as an abstraction, but the engineering reality of building infrastructure that millions of people rely on without ever thinking about. I want to work on problems where the difficulty is intrinsic to the domain, not imposed by tooling, and where the person two desks away has already solved something I haven't yet imagined.",
-    "The flight log behind this letter is the honest account. Mediamatician at fifteen - production code, real clients, Friday deadlines. Swiss Army officer, second-in-command of 130 people under pressure. Computer Science at HSG: layered Java systems, ML deployment, Domain-Driven Design, API development in Python. VP of a student consulting club that competes internationally and wins. The thread across all of it: I look for environments where technical depth and real stakes converge.",
-    "On day one I'd bring software design, REST API development, and data-driven problem-solving across Python and Java; fluency in Linux/Unix, Docker, and GitHub-based workflows; and the habit - formed at fifteen, not taught - of shipping software that has to work.",
+    "The flight log behind this letter is the honest account. Mediamatician at fifteen: production code, real clients, Friday deadlines. Swiss Army officer, second-in-command of 130 people under pressure. Computer Science at HSG: layered Java systems, ML deployment, Domain-Driven Design, API development in Python. VP of a student consulting club that competes internationally and wins. The thread across all of it: I look for environments where technical depth and real stakes converge.",
+    "On day one I'd bring software design, REST API development, and data-driven problem-solving across Python and Java; fluency in Linux/Unix, Docker, and GitHub-based workflows; and the habit, formed at fifteen not taught, of shipping software that has to work.",
     "I'd welcome 30 minutes with someone on the engineering team in Zürich. Not to pitch a generic application - to ask specific questions about the work."
   ],
   signoff: "Awaiting clearance,\nT. Suhner"
@@ -56,20 +56,20 @@ const chapters = [
   {
     id: 1,
     leg: "LEG 01",
-    location: "LENZBURG, CH",
-    dateRange: "2019–2022",
+    location: "URDORF, CH",
+    dateRange: "2018–2022",
     dot: "CH-LENZ",
-    dotLabel: "Lenzburg",
+    dotLabel: "Urdorf",
     sketchAsset: "Leg_1.PNG",
     title: "EARLY RESPONSIBILITY",
     mapLabel: "Early Resp.",
     subtitle: "Practical work before theory",
     signal: "shipping responsibility",
-    body: "At twelve, I spent three weeks researching CPU socket types before touching a single component - the machine worked first try. That disposition, understand first then build, stayed. At fifteen I began a three-year apprenticeship as a Mediamatician in Lenzburg. While classmates were in school, I was debugging a client's live website and explaining to the account manager why a missing semicolon had taken the contact form down since Tuesday. We wrote production code, worked in small teams, and shipped software to real users with real deadlines. The job title translates roughly as 'media technician,' but what the apprenticeship gave me was a concrete understanding of the gap between design and implementation - between a system that works in a browser tab and one that survives contact with real traffic, real edge cases, and real people who do not read the instructions. I arrived at university four years later than most classmates, already knowing what shipping felt like.",
+    body: "At fourteen, I spent three weeks researching CPU socket types before touching a single component. The machine worked first try. That disposition, understand first then build, stayed. At fifteen I began a four-year apprenticeship as a Mediamatician in Urdorf. While classmates were in school, I was writing production code, working in small teams, and shipping software to real users with real deadlines. The job title is Mediamatician, roughly a combination of media, technology, and design, but what the apprenticeship gave me was a concrete understanding of the gap between design and implementation: the difference between a system that works in a browser tab and one that survives contact with real traffic, real edge cases, and real people who do not read the instructions. By the time it ended, I already knew what shipping felt like.",
     callout: "The fastest way to understand a system is to be responsible for it when it breaks.",
     stampText: "LOGGED",
     cargo: [
-      { label: "client work · web applications",   url: "https://github.com/thierrysuhner",          note: "Production code, real deadlines" },
+      { label: "client work · web applications",   url: "https://ncag.ch/en/software-solutions/",    note: "Production code, real deadlines" },
       { label: "design systems · production mindset", url: "https://github.com/thierrysuhner",       note: "From mockup to user-facing systems" }
     ]
   },
