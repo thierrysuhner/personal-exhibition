@@ -85,7 +85,7 @@ const chapters = [
     mapLabel: "Pressure",
     subtitle: "Learning to function beyond comfort",
     signal: "calm under pressure",
-    body: "Swiss officer training removes comfort methodically. I was second-in-command of an infantry company - responsible for the safety, readiness, and decisions of more than 130 people. What I noticed was not about authority. It was about reliability: in uncertain conditions, people orient toward whoever is consistently clear-headed. I learned more about decision-making under genuine uncertainty in those months than in any other environment. In parallel, I entered SPHAIR - the Swiss Air Force pilot selection programme. I did not pass the final stage. That outcome was clarifying rather than comfortable: the process exposed specific gaps in how I performed under certain high-stakes assessment conditions, and what it takes to close them. Both experiences reinforced something I had started to suspect at fifteen - I work best when the constraints are real and the consequences for getting it wrong actually exist. That is partly why the cockpit framing felt appropriate for this exhibition.",
+    body: "Swiss officer training removes comfort methodically. I was second-in-command of an infantry company, responsible for the safety, readiness, and decisions of more than 130 people. What I noticed was not about authority. It was about reliability: in uncertain conditions, people orient toward whoever is consistently clear-headed. I learned more about decision-making under genuine uncertainty in those months than in any other environment. In parallel, I entered SPHAIR, the Swiss Air Force pilot selection programme. I did not pass the final stage, not because of performance but because my eyesight did not meet the medical requirements. That outcome was clarifying in its own way: I had gone further than most applicants and confirmed I could operate under that kind of pressure. Both experiences reinforced something I had started to suspect at fifteen. I work best when the constraints are real and the consequences for getting it wrong actually exist. That is partly why the cockpit framing felt appropriate for this exhibition.",
     callout: "I work best when the constraints are real and the consequences for getting it wrong actually exist.",
     stampText: "LOGGED",
     cargo: [
@@ -190,7 +190,7 @@ const waypoints = [
     type: "RECOVERED SIGNAL",
     label: "BEFORE OFFICER SCHOOL",
     placement: "inside-leg-02",
-    text: "At first, continuing was not obvious. That is partly why it mattered."
+    text: "Aspiring to be a platoon leader was not obvious from where I started. That is partly why it mattered."
   },
   {
     id: "pressure-sleep",
