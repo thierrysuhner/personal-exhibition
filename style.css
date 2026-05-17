@@ -452,11 +452,11 @@ body {
     gap: 28px;
     margin-top: 14px;
     padding-top: 12px;
-    border-top: 1px solid rgba(0, 180, 255, 0.18);
+    border-top: 1px solid rgba(0, 180, 255, 0.3);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    height: 36px;
-    color: rgba(0, 200, 255, 0.45);
+    font-size: 0.72rem;
+    height: 44px;
+    color: rgba(0, 200, 255, 0.9);
     letter-spacing: 0.1em;
 }
 
@@ -468,10 +468,10 @@ body {
 
 .indicator {
     display: inline-block;
-    width: 6px;
-    height: 6px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    border: 1px solid rgba(0, 180, 255, 0.3);
+    border: 1px solid rgba(0, 180, 255, 0.6);
     background: transparent;
     transition: background 0.3s ease, box-shadow 0.3s ease;
 }
@@ -484,34 +484,40 @@ body {
 
 .hint-text {
     font-family: var(--font-mono);
-    font-size: 0.58rem;
-    color: rgba(0, 200, 255, 0.4);
-    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    color: rgba(0, 220, 255, 0.9);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
 }
 
 /* ─── Footer action buttons ──────────────────────────────── */
 .footer-btn {
-    background: transparent;
-    border: 1px solid rgba(0, 180, 255, 0.3);
-    color: rgba(0, 200, 255, 0.65);
+    background: rgba(0, 30, 60, 0.5);
+    border: 1px solid rgba(0, 200, 255, 0.6);
+    color: rgba(0, 220, 255, 0.95);
     font-family: var(--font-mono);
-    font-size: 0.55rem;
+    font-size: 0.7rem;
     letter-spacing: 0.14em;
-    padding: 5px 10px;
+    padding: 7px 14px;
     border-radius: 3px;
     cursor: pointer;
-    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    transition: color 0.15s, border-color 0.15s, background 0.15s, box-shadow 0.15s;
     text-transform: uppercase;
     white-space: nowrap;
+    box-shadow: 0 0 8px rgba(0, 180, 255, 0.2);
 }
 .footer-btn:hover {
-    color: var(--screen-green);
+    color: #fff;
     border-color: var(--screen-green);
+    background: rgba(0, 230, 118, 0.12);
+    box-shadow: 0 0 14px rgba(0, 230, 118, 0.3);
 }
 .footer-btn.reset-btn:hover {
     color: var(--amber-warn);
     border-color: var(--amber-warn);
+    background: rgba(201, 125, 16, 0.1);
+    box-shadow: 0 0 14px rgba(201, 125, 16, 0.25);
 }
 .footer-actions {
     margin-left: auto;
