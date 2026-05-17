@@ -100,9 +100,9 @@ const chapters = [
     callout: "The signal that you understand a system is being able to explain clearly what you would change about it - and why.",
     stampText: "LOGGED",
     cargo: [
-      { label: "Vehicle subscription platform",      url: "https://github.com/thierrysuhner",        note: "DDD, full backend, BDD, API integration" },
-      { label: "Restaurant revenue ML model",        url: "https://github.com/thierrysuhner",        note: "Random forest, deployed, real staffing data" },
-      { label: "ESPRIT - HSG consulting club",       url: "https://esprit-hsg.com",                  note: "VP, international competition wins" }
+      { label: "Vehicle subscription platform",      url: "https://github.com/unisg-scs-se/BSC_FS26_SE_GROUP01", note: "DDD, full backend, BDD, API integration" },
+      { label: "Restaurant revenue ML model",        url: "https://github.com/Luggias/DSF_Group_Project",        note: "Random forest, deployed, real staffing data" },
+      { label: "ESPRIT - HSG consulting club",       url: "https://espritsg.ch/",                                note: "VP, international competition wins" }
     ]
   },
   {
@@ -118,8 +118,8 @@ const chapters = [
     callout: "My best work has always happened in rooms where the stakes were real and the people were worth impressing.",
     stampText: "LOGGED",
     cargo: [
-      { label: "CaseIT 2026 - Vancouver",            url: "https://www.caseit.ca",                   note: "Division winners, international field" },
-      { label: "ESPRIT - competition team",          url: "https://esprit-hsg.com",                  note: "4-person team, cross-functional prep" }
+      { label: "CaseIT 2026 - Vancouver",            url: "https://www.caseit.org/",                 note: "Division winners, international field" },
+      { label: "ESPRIT - competition team",          url: "https://www.linkedin.com/posts/university-of-st-gallen_hsg-studierende-gewinnen-zum-dritten-mal-ugcPost-7311300636686311424-TwtY?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEc4mhQBlTDRuCRLggThKaB_TyCfrxVBgkM", note: "4-person team, cross-functional prep" }
     ]
   },
   {
