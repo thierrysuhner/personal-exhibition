@@ -223,6 +223,13 @@ class FlightLogApp {
 
       container.innerHTML = html;
       container.style.opacity = '1';
+
+      // Update header status: AIRBORNE from Leg 3→4 onwards (ST. GALLEN→VANCOUVER)
+      const headerMeta = document.getElementById('header-meta');
+      if (headerMeta) {
+        headerMeta.textContent = chapter.id >= 4 ? 'AIRBORNE' : 'ROUTE ACTIVE';
+      }
+
       if (chapter.isFinalDestination) {
         container.classList.add('final-destination');
       } else {

@@ -183,7 +183,7 @@ class RouteMap {
     label.setAttribute('x', px);
     label.setAttribute('y', py + 22);
     label.setAttribute('class', `map-label ${dotState}`);
-    label.textContent = chapter.dotLabel;
+    label.textContent = chapter.mapLabel || chapter.dotLabel;
     this.svg.appendChild(label);
   }
 

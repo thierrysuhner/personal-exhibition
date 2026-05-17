@@ -591,46 +591,73 @@ body {
     border-bottom: 1px solid var(--green-active);
 }
 
-/* Black Box Waypoints */
+/* Black Box Waypoints — Cockpit Sticky Notes */
 .waypoint-card {
-    background: rgba(26, 26, 26, 0.25);
-    border: 1px solid rgba(26, 26, 26, 0.35);
-    border-radius: 3px;
-    padding: 14px 16px;
-    margin: 22px 0;
-    animation: fadeIn 400ms ease-out;
+    background: #fffacd;
+    border: 1px solid rgba(200, 180, 80, 0.5);
+    border-radius: 2px;
+    padding: 14px 12px;
+    margin: 24px 0;
+    transform: rotate(-1.2deg);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        -2px 2px 6px rgba(0, 0, 0, 0.08);
+    position: relative;
+    animation: fadeIn 300ms ease-out;
+}
+
+/* Pushpin effect on sticky note */
+.waypoint-card::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle at 30% 30%, #e74c3c, #c0392b);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.waypoint-card:nth-child(even) {
+    transform: rotate(0.8deg);
+}
+
+.waypoint-card:nth-child(3n) {
+    background: #ffffcc;
 }
 
 .waypoint-header {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    gap: 3px;
     margin-bottom: 8px;
+    margin-top: 6px;
 }
 
 .waypoint-type {
     font-family: var(--font-mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(26, 26, 26, 0.5);
-    font-weight: 500;
+    color: rgba(26, 26, 26, 0.4);
+    font-weight: 400;
 }
 
 .waypoint-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-family: var(--font-caveat);
+    font-size: 1.05rem;
     color: var(--ink-dark);
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .waypoint-text {
     font-family: var(--font-body);
-    font-size: 0.80rem;
-    line-height: 1.6;
-    color: rgba(26, 26, 26, 0.85);
+    font-size: 0.77rem;
+    line-height: 1.5;
+    color: rgba(26, 26, 26, 0.8);
     font-style: italic;
 }
 
