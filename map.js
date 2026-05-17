@@ -185,6 +185,44 @@ class RouteMap {
     label.setAttribute('class', `map-label ${dotState}`);
     label.textContent = chapter.mapLabel || chapter.dotLabel;
     this.svg.appendChild(label);
+
+    // Draw leg title/waypoint name on the left side with wrapping
+    this.drawLegTitleLeft(chapter, px, py, dotState);
+  }
+
+  drawLegTitleLeft(chapter, px, py, dotState) {
+    const title = chapter.title;
+    const maxCharsPerLine = 12;
+    let lines = [];
+
+    // Split title into lines that fit the space
+    const words = title.split(' ');
+    let currentLine = '';
+    for (const word of words) {
+      if ((currentLine + ' ' + word).length > maxCharsPerLine && currentLine.length > 0) {
+        lines.push(currentLine.trim());
+        currentLine = word;
+      } else {
+        currentLine += (currentLine ? ' ' : '') + word;
+      }
+    }
+    if (currentLine) lines.push(currentLine.trim());
+
+    // Draw each line of the title to the left
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', `leg-title ${dotState}`);
+
+    for (let i = 0; i < lines.length; i++) {
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', px - 50);
+      text.setAttribute('y', py - 8 + (i * 12));
+      text.setAttribute('class', 'leg-title-text');
+      text.setAttribute('text-anchor', 'end');
+      text.textContent = lines[i];
+      g.appendChild(text);
+    }
+
+    this.svg.appendChild(g);
   }
 
   drawRoughDot(dotId, px, py, state) {
