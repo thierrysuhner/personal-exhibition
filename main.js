@@ -417,15 +417,15 @@ class FlightLogApp {
 
     const cacheKey = `ghCache:${pilot.githubUser}`;
     const cached   = sessionStorage.getItem(cacheKey);
-    if (cached) {
-      try {
-        const data = JSON.parse(cached);
-        // Always apply the hardcoded actype override, even from cache
-        if (pilot.actype) data.actype = pilot.actype.slice(0, 8);
-        this.applyInstruments(data);
-        return;
-      } catch {}
-    }
+    // Always fetch fresh data (no cache) so LAST DEP shows current
+    // if (cached) {
+    //   try {
+    //     const data = JSON.parse(cached);
+    //     if (pilot.actype) data.actype = pilot.actype.slice(0, 8);
+    //     this.applyInstruments(data);
+    //     return;
+    //   } catch {}
+    // }
 
     try {
       const [userRes, reposRes] = await Promise.all([
