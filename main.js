@@ -20,16 +20,20 @@ class FlightLogApp {
     const overlay = document.getElementById('intro-overlay');
     const textEl  = document.getElementById('intro-text');
 
-    const warning = 'WARNING: NON-STANDARD ROUTE DETECTED';
-    await this.typeText(textEl, warning, 35, '#8B1A1A', '2rem');
-    await this.typeDots(textEl, 3, 220);
+    // Line 1 — warning
+    const line1 = document.createElement('div');
+    textEl.appendChild(line1);
+    await this.typeText(line1, 'WARNING: NON-STANDARD ROUTE DETECTED', 35, '#8B1A1A', '2rem');
+    await this.typeDots(line1, 3, 220);
 
-    await this.sleep(700);
+    await this.sleep(500);
 
-    textEl.innerHTML = '';
-    const initiating = 'INITIATING FLIGHT LOG';
-    await this.typeText(textEl, initiating, 35, '#C97D10', '1rem');
-    await this.typeDots(textEl, 3, 260);
+    // Line 2 — initiating (appears below, same screen)
+    const line2 = document.createElement('div');
+    line2.style.marginTop = '1rem';
+    textEl.appendChild(line2);
+    await this.typeText(line2, 'INITIATING FLIGHT LOG', 35, '#C97D10', '1rem');
+    await this.typeDots(line2, 3, 260);
 
     await this.sleep(500);
 
