@@ -77,7 +77,7 @@ const chapters = [
     id: 2,
     leg: "LEG 02",
     location: "OFFICER SCHOOL / SPHAIR",
-    dateRange: "MAY 2023 – OCT 2023",
+    dateRange: "MAR 2023 – OCT 2023",
     dot: "CH-ARMY",
     dotLabel: "Army / SPHAIR",
     sketchAsset: "Leg_2.png",
@@ -126,12 +126,12 @@ const chapters = [
     mapLabel: "Collaboration",
     subtitle: "Meaningful work is rarely individual",
     signal: "team intensity",
-    body: "CaseIT is one of the largest international business case competitions. In February I flew to Vancouver with a team from ESPRIT to compete across four days of cases, presentations, and very little sleep. We won our division. The note I wrote in my reflection does not mention the trophy - it says 'new friends, deep talks, going through hard work together.' That is closer to what I actually remember. The hotel lobby late on the second evening, working through a market-sizing framework with three people who had become real friends in 48 hours. My best work has usually happened alongside people whose standards raised mine. Vancouver was a clear instance of that.",
+    body: "CaseIT is one of the largest international business case competitions. In February I flew to Vancouver with a team from Case Class, an initiative run jointly by the HSG consulting club and Bain and Company, to compete across a week of cases, presentations, and very little sleep. We won our division. What stayed with me was not the result. It was the hotel lobby late on the second evening, working through a market-sizing framework with three people who had become real friends in 48 hours. My best work has usually happened alongside people whose standards raised mine. Vancouver was a clear instance of that.",
     callout: "My best work has usually happened around people whose standards raised mine.",
     stampText: "LOGGED",
     cargo: [
       { label: "case competition · strategy",        url: "https://www.caseit.org/",                 note: "CaseIT 2026, division winners" },
-      { label: "teamwork · presentation",            url: "https://www.linkedin.com/posts/university-of-st-gallen_hsg-studierende-gewinnen-zum-dritten-mal-ugcPost-7311300636686311424-TwtY?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEc4mhQBlTDRuCRLggThKaB_TyCfrxVBgkM", note: "4-person team, structured problem-solving" }
+      { label: "teamwork · presentation",            url: "https://www.linkedin.com/feed/update/urn:li:activity:7441849503395045376/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEc4mhQBlTDRuCRLggThKaB_TyCfrxVBgkM", note: "4-person team, structured problem-solving" }
     ]
   },
   {
