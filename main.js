@@ -80,6 +80,7 @@ class FlightLogApp {
     window.addEventListener('originSelected', (e) => {
       const { dotId } = e.detail;
       this.state.activeOrigin = dotId;
+      this.onOriginSelected(dotId);
     });
 
     window.addEventListener('chapterConnected', async (e) => {
@@ -311,13 +312,29 @@ class FlightLogApp {
   }
 
   updateHintText() {
-    const hintEl = document.getElementById('hint-text');
-    if (this.state.connectedDots.length === 1) {
-      hintEl.textContent = 'click a dot to begin';
-    } else if (this.state.connectedDots.length < 5) {
-      hintEl.textContent = 'connect the next waypoint';
+    const hintEl  = document.getElementById('hint-text');
+    const connected = this.state.connectedDots.length;
+    const nextChapter = chapters.find(c => c.id === connected + 1);
+
+    if (connected === 1) {
+      hintEl.textContent = '① click LENZBURG on the map to select it';
+    } else if (connected === 2) {
+      hintEl.textContent = `② now click ${nextChapter?.dotLabel?.toUpperCase() ?? 'the next dot'} to fly the leg`;
+    } else if (connected < 5) {
+      hintEl.textContent = `② click ${nextChapter?.dotLabel?.toUpperCase() ?? 'the next dot'} to fly the next leg`;
     } else {
       hintEl.textContent = 'route complete · awaiting clearance';
+    }
+  }
+
+  // Called by map when origin is selected — update hint immediately
+  onOriginSelected(dotId) {
+    const hintEl   = document.getElementById('hint-text');
+    const chapter  = chapters.find(c => c.dot === dotId);
+    const nextIdx  = chapters.findIndex(c => c.dot === dotId) + 1;
+    const nextChap = chapters[nextIdx];
+    if (nextChap) {
+      hintEl.textContent = `→ now click ${nextChap.dotLabel.toUpperCase()} to connect`;
     }
   }
 

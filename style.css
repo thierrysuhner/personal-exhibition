@@ -21,6 +21,7 @@
 
     --font-caveat: 'Caveat', cursive;
     --font-mono: 'IBM Plex Mono', monospace;
+    --font-body: 'Inter', system-ui, sans-serif;
 }
 
 /* Global */
@@ -278,16 +279,32 @@ body {
 
 .map-label {
     font-family: var(--font-mono);
-    font-size: 0.48rem;
-    font-weight: 400;
-    fill: rgba(0, 200, 255, 0.6);
+    font-size: 0.52rem;
+    font-weight: 500;
+    fill: rgba(0, 200, 255, 0.75);
     text-anchor: middle;
     pointer-events: none;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
 }
 
 .map-label.locked {
     opacity: 0.3;
+}
+
+/* "CLICK TO START" instruction label */
+.map-instruction-text {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 500;
+    fill: rgba(0, 200, 255, 0.85);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    animation: instructionPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes instructionPulse {
+    0%, 100% { opacity: 0.6; }
+    50%       { opacity: 1; }
 }
 
 /* Right page — printed paper */
@@ -359,21 +376,23 @@ body {
 }
 
 .chapter-body {
-    font-family: var(--font-caveat);
-    font-size: 1rem;
-    line-height: 1.8;
+    font-family: var(--font-body);
+    font-size: 0.84rem;
+    line-height: 1.75;
     color: var(--ink-hand);
     margin: 18px 0;
     max-width: 380px;
+    letter-spacing: 0.01em;
 }
 
 .chapter-callout {
     border: 1px solid var(--ink-dark);
-    padding: 13px 15px;
+    padding: 14px 16px;
     margin: 18px 0;
     font-family: var(--font-caveat);
     font-style: italic;
-    font-size: 0.93rem;
+    font-size: 1.22rem;
+    line-height: 1.5;
     color: var(--ink-hand);
 }
 

@@ -106,6 +106,57 @@ class RouteMap {
     for (const dotId of this.state.dots) {
       this.drawDot(dotId);
     }
+
+    // Show start instruction only when no connections have been made yet
+    if (this.state.connectedPairs.length === 0) {
+      this.drawStartInstruction();
+    }
+  }
+
+  drawStartInstruction() {
+    const pos  = this.getPixelPosition('CH-LENZ');
+    const px   = pos.px;
+    const py   = pos.py;
+
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('data-instruction', 'true');
+    g.style.pointerEvents = 'none';
+
+    // Curved arrow pointing at the dot
+    const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    arrow.setAttribute('d', `M ${px - 38} ${py - 28} Q ${px - 22} ${py - 36} ${px - 8} ${py - 14}`);
+    arrow.setAttribute('stroke', 'rgba(0,200,255,0.7)');
+    arrow.setAttribute('stroke-width', '1.5');
+    arrow.setAttribute('fill', 'none');
+    arrow.setAttribute('stroke-dasharray', '3,3');
+    arrow.setAttribute('marker-end', 'url(#arrow-head)');
+    g.appendChild(arrow);
+
+    // Arrowhead marker (define once)
+    if (!this.svg.querySelector('#arrow-head')) {
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.innerHTML = `
+        <marker id="arrow-head" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L6,3 z" fill="rgba(0,200,255,0.7)"/>
+        </marker>`;
+      this.svg.insertBefore(defs, this.svg.firstChild);
+    }
+
+    // "Click here" label
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', px - 42);
+    text.setAttribute('y', py - 32);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('class', 'map-instruction-text');
+    text.textContent = 'CLICK TO START';
+    g.appendChild(text);
+
+    this.svg.appendChild(g);
+  }
+
+  removeStartInstruction() {
+    const el = this.svg.querySelector('[data-instruction="true"]');
+    if (el) el.remove();
   }
 
   drawDot(dotId) {
@@ -236,6 +287,7 @@ class RouteMap {
   }
 
   selectOriginDot(dotId) {
+    this.removeStartInstruction();
     this.state.activeOrigin = dotId;
     window.dispatchEvent(new CustomEvent('originSelected', { detail: { dotId } }));
   }
