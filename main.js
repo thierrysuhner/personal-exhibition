@@ -159,8 +159,8 @@ class FlightLogApp {
     const pad = (s, n) => String(s).padEnd(n);
 
     const header = [
-      `${pad('DEP', 9)}·  ${fromChapter.location}`,
-      `${pad('ARR', 9)}·  ${toChapter.location}`,
+      `${pad('DEP', 9)}·  ${fromChapter.title}`,
+      `${pad('ARR', 9)}·  ${toChapter.title}`,
       ``,
       `${pad('STATUS', 9)}   AIRBORNE`,
     ];
