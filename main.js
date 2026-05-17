@@ -70,6 +70,7 @@ class FlightLogApp {
     this.attachEventListeners();
     this.attachChecklistListeners();
     this.attachTransmissionListeners();
+    this.attachResetListener();
     this.updateIndicators();
     this.updateHintText();
     this.loadCockpitInstruments();
@@ -93,10 +94,15 @@ class FlightLogApp {
       this.updateIndicators();
 
       try {
+        // Pre-flight checklist animation before the St. Gallen → Vancouver leg
+        if (fromChapterId === 3 && chapterId === 4) {
+          await this.runPreflightAnimation();
+        }
         await this.triggerFlightAnimation(fromChapterId, chapterId);
       } catch (err) {
         console.error('Flight animation error:', err);
         document.getElementById('flight-overlay').classList.remove('active');
+        this.closeChecklistDrawer();
       } finally {
         this.state.currentChapter = chapterId;
         this.state.isAnimating = false;
@@ -390,6 +396,54 @@ class FlightLogApp {
     return `${Math.floor(diff / 365)}Y AGO`;
   }
 
+  // ─── Animated pre-flight checklist (Leg 3 → 4 only) ───────────────
+  async runPreflightAnimation() {
+    const drawer = document.getElementById('checklist-drawer');
+
+    // Render with empty boxes
+    this.renderChecklist(true);
+    drawer.classList.add('open', 'animating');
+    drawer.setAttribute('aria-hidden', 'false');
+
+    // Brief pause so drawer slides in before we start ticking
+    await this.sleep(600);
+
+    const items = drawer.querySelectorAll('.checklist-item');
+    for (const item of items) {
+      item.classList.add('ticking');
+      await this.sleep(65);
+      item.classList.remove('ticking');
+      item.classList.add('ticked');
+      await this.sleep(38);
+    }
+
+    // Hold a moment so it reads as "all clear"
+    await this.sleep(700);
+
+    // Slide the drawer closed before the video starts
+    drawer.classList.remove('open', 'animating');
+    drawer.setAttribute('aria-hidden', 'true');
+
+    // Small gap before the flight animation overlay appears
+    await this.sleep(380);
+  }
+
+  closeChecklistDrawer() {
+    const drawer = document.getElementById('checklist-drawer');
+    drawer.classList.remove('open', 'animating');
+    drawer.setAttribute('aria-hidden', 'true');
+  }
+
+  // ─── Reset to Leg 1 ────────────────────────────────────────────────
+  attachResetListener() {
+    const btn = document.getElementById('reset-btn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      sessionStorage.removeItem('flightLogState');
+      window.location.reload();
+    });
+  }
+
   // ─── Preflight checklist drawer ────────────────────────────────────
   attachChecklistListeners() {
     const drawer = document.getElementById('checklist-drawer');
@@ -415,15 +469,17 @@ class FlightLogApp {
     });
   }
 
-  renderChecklist() {
+  renderChecklist(animated = false) {
     const body = document.getElementById('checklist-body');
     if (!body || typeof preflightChecklist === 'undefined') return;
+    // In animated mode boxes show empty (✓ hidden via CSS on .animating drawer);
+    // in manual mode they show already-checked.
     body.innerHTML = preflightChecklist.map(group => `
       <section class="checklist-group">
         <h3 class="checklist-group-title">${group.group}</h3>
         <ul class="checklist-items">
           ${group.items.map(item => `
-            <li class="checklist-item">
+            <li class="checklist-item${animated ? '' : ' ticked'}">
               <span class="checklist-box">✓</span>
               <span class="checklist-text">${item}</span>
             </li>

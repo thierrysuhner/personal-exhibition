@@ -471,6 +471,36 @@ body {
     text-transform: uppercase;
 }
 
+/* ─── Footer action buttons ──────────────────────────────── */
+.footer-btn {
+    background: transparent;
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    color: rgba(0, 200, 255, 0.65);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.footer-btn:hover {
+    color: var(--screen-green);
+    border-color: var(--screen-green);
+}
+.footer-btn.reset-btn:hover {
+    color: var(--amber-warn);
+    border-color: var(--amber-warn);
+}
+.footer-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* ─── Flight Overlay ─────────────────────────────────────── */
 .flight-overlay {
     position: fixed;
@@ -654,24 +684,7 @@ body {
     color: #fff;
 }
 
-/* ─── Checklist toggle button (footer) ───────────────────── */
-.checklist-toggle {
-    margin-left: auto;
-    background: transparent;
-    border: 1px solid rgba(0, 180, 255, 0.3);
-    color: rgba(0, 200, 255, 0.65);
-    font-family: var(--font-mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.14em;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
-}
-.checklist-toggle:hover {
-    color: var(--screen-green);
-    border-color: var(--screen-green);
-}
+/* (checklist-toggle replaced by .footer-btn — see footer-actions above) */
 
 /* ─── Preflight checklist drawer ─────────────────────────── */
 .checklist-drawer {
@@ -763,6 +776,37 @@ body {
     color: var(--green-active);
     font-size: 0.7rem;
     line-height: 1;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animation mode: boxes start empty */
+.checklist-drawer.animating .checklist-box {
+    color: transparent;
+}
+
+/* Individual item gets ticked */
+.checklist-item.ticking .checklist-box {
+    animation: tickIn 220ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+.checklist-item.ticked .checklist-box {
+    color: var(--green-active);
+}
+
+@keyframes tickIn {
+    0%   { color: transparent; transform: scale(1.4); }
+    60%  { color: var(--green-active); transform: scale(0.85); }
+    100% { color: var(--green-active); transform: scale(1); }
+}
+
+/* Row highlight during animation */
+.checklist-item.ticking {
+    background: rgba(27, 67, 50, 0.08);
+    border-radius: 2px;
+}
+.checklist-item.ticked .checklist-text {
+    opacity: 0.75;
 }
 
 .checklist-text {
@@ -994,7 +1038,7 @@ body {
         display: none;
     }
 
-    .checklist-toggle {
+    .footer-btn {
         font-size: 0.5rem;
         padding: 4px 8px;
     }

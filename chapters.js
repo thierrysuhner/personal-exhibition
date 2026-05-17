@@ -1,42 +1,51 @@
 // ─── Pilot / GitHub identity ──────────────────────────────────────
-// Used by the live cockpit instruments in the header.
 const pilot = {
-  githubUser: "thierrysuhner",     // ← replace with your GitHub handle
+  githubUser: "thierrysuhner",
   callsign:   "TS-001",
   homeBase:   "LSZH"
 };
 
 // ─── Pre-flight checklist (press C in the app) ────────────────────
-// Acts as a skills list dressed up as a pilot's checklist.
-// Replace / extend with your real items.
 const preflightChecklist = [
-  { group: "AIRFRAME · LANGUAGES",       items: ["Python", "TypeScript / JavaScript", "Go", "SQL", "Bash"] },
-  { group: "AVIONICS · FRAMEWORKS",      items: ["React", "Node.js", "FastAPI", "TensorFlow / PyTorch", "GCP / BigQuery"] },
-  { group: "NAV · TOOLS",                items: ["Git", "Docker", "Linux", "Figma", "Notion"] },
-  { group: "COMMS · LANGUAGES (HUMAN)",  items: ["German (native)", "English (C2)", "French (B2)", "Italian (A2)"] },
-  { group: "PILOT · SOFT SKILLS",        items: ["Cross-functional leadership", "Public speaking", "Stakeholder management", "Bias to ship"] }
+  {
+    group: "AIRFRAME · LANGUAGES",
+    items: ["Python", "Java", "TypeScript / JavaScript", "Go", "SQL", "Bash"]
+  },
+  {
+    group: "AVIONICS · FRAMEWORKS & TECH",
+    items: ["Spring Boot + REST APIs", "React / Node.js", "FastAPI", "TensorFlow / PyTorch", "Docker", "Domain-Driven Design"]
+  },
+  {
+    group: "NAV · TOOLS",
+    items: ["Git / GitHub workflows", "Linux / Unix environments", "Figma", "Behavior-Driven Development"]
+  },
+  {
+    group: "COMMS · LANGUAGES (HUMAN)",
+    items: ["German (native)", "English (C2)", "French (B2)", "Italian (A2)"]
+  },
+  {
+    group: "PILOT · COMMAND & LEADERSHIP",
+    items: ["Infantry company 2IC — 130+ people", "ESPRIT VP — real client projects", "International case competition winner", "Structured problem-solving under pressure", "Bias to ship"]
+  }
 ];
 
 // ─── ATC bonus transmission (plays after Leg 5 lands) ─────────────
-// The radio handshake that introduces the letter to Google.
-// Edit if you want a different tone.
 const atcTransmission = [
-  { freq: "118.10",  who: "TS-001",     msg: "Zurich Tower, flight TS-001, short final runway 14, request clearance to land." },
-  { freq: "118.10",  who: "ZRH TOWER",  msg: "TS-001, identify intent." },
-  { freq: "118.10",  who: "TS-001",     msg: "Five legs filed. Destination: Google Zürich, Hürlimann Areal. Cargo: curiosity, code, and one engineering problem I'd like to work on." },
-  { freq: "118.10",  who: "ZRH TOWER",  msg: "TS-001, transmission received. Stand by…" }
+  { freq: "118.10", who: "TS-001",    msg: "Zurich Tower, flight TS-001, short final runway 14, request clearance to land." },
+  { freq: "118.10", who: "ZRH TOWER", msg: "TS-001, identify intent." },
+  { freq: "118.10", who: "TS-001",    msg: "Five legs filed. Destination: Google Zürich, Hürlimann Areal. Cargo: curiosity, code, and one engineering problem I'd like to work on." },
+  { freq: "118.10", who: "ZRH TOWER", msg: "TS-001, transmission received. Stand by…" }
 ];
 
-// ─── Letter (rendered after the transmission) ─────────────────────
-// PLACEHOLDER — replace with your actual pitch. ~120 words feels right.
+// ─── Clearance letter (rendered after the transmission) ───────────
 const clearanceLetter = {
   to:   "ATTN: HIRING CAPTAIN, GOOGLE ZÜRICH",
   from: "T. SUHNER, FLIGHT TS-001",
   body: [
-    "PLACEHOLDER — open with one concrete thing about Google you actually care about (a product, a paper, a team). One sentence, specific.",
-    "PLACEHOLDER — connect that to one thing in your flight log: a problem you've solved, a project you shipped, a moment you knew you wanted to build at this scale.",
-    "PLACEHOLDER — what you'd bring on day one: language(s), domain, a skill that's rarer than the rest of your CV suggests.",
-    "PLACEHOLDER — a clean ask. \"I'd like 30 minutes with someone on the X team\" beats \"please consider me.\""
+    "I'm drawn to Google because of the scale — not scale as an abstraction, but the engineering reality of building infrastructure that millions of people rely on without ever thinking about. I want to work on problems where the difficulty is intrinsic to the domain, not imposed by tooling, and where the person two desks away has already solved something I haven't yet imagined.",
+    "The flight log behind this letter is the honest account. Mediamatician at fifteen — production code, real clients, Friday deadlines. Swiss Army officer, second-in-command of 130 people under pressure. Computer Science at HSG: layered Java systems, ML deployment, Domain-Driven Design, API development in Python and Go. VP of a student consulting club that competes internationally and wins. The thread across all of it: I look for environments where technical depth and real stakes converge.",
+    "On day one I'd bring software design, REST API development, and data-driven problem-solving across Python, Java, and Go; fluency in Linux/Unix, Docker, and GitHub-based workflows; and the habit — formed at fifteen, not taught — of shipping software that has to work.",
+    "I'd welcome 30 minutes with someone on the engineering team in Zürich. Not to pitch a generic application — to ask specific questions about the work."
   ],
   signoff: "Awaiting clearance,\nT. Suhner"
 };
@@ -51,46 +60,48 @@ const chapters = [
     dot: "CH-LENZ",
     dotLabel: "Lenzburg",
     sketchAsset: "sketch-mediamatiker.svg",
-    title: "PLACEHOLDER TITLE",
-    body: "PLACEHOLDER — replace with your text. Max ~150 words. One concrete moment, specific, grounded.",
-    callout: "PLACEHOLDER — one sentence key insight or decision.",
+    title: "FIRST DEPARTURE",
+    body: "At twelve, I spent three weeks researching CPU socket types before touching a single component. The machine posted. That disposition — understand first, then build — turned into a vocation at fifteen when I began a three-year apprenticeship as a Mediamatician in Lenzburg. While peers studied theory, I was debugging a client's live website and apologising to the account manager about a missing semicolon. We wrote production code, worked in teams, and shipped software to real users — responsible for things that had to work by Friday. The job title translates roughly as \"media technician,\" but what it gave me was more structural than that: a visceral sense of the difference between a design that looks good in Figma and a system that survives contact with real traffic. I arrived at university four years later than most. I arrived knowing what shipping feels like.",
+    callout: "The fastest way to understand a system is to be responsible for it when it breaks.",
     stampText: "LOGGED",
     cargo: [
-      { label: "PLACEHOLDER — project name",  url: "https://github.com/PLACEHOLDER/repo",  note: "1-line description" },
-      { label: "PLACEHOLDER — demo or write-up", url: "https://example.com",                  note: "1-line description" }
+      { label: "GitHub · all public repos",        url: "https://github.com/thierrysuhner",          note: "Production code, side projects, coursework" },
+      { label: "Java CMS — layered architecture",  url: "https://github.com/thierrysuhner",          note: "RESTful API, highest possible grade" }
     ]
   },
   {
     id: 2,
     leg: "LEG 02",
     location: "OFFICER SCHOOL / SPHAIR",
-    dateRange: "PLACEHOLDER_DATE",
+    dateRange: "MAY 2023 – OCT 2023",
     dot: "CH-ARMY",
     dotLabel: "Army / SPHAIR",
     sketchAsset: "sketch-army.svg",
-    title: "PLACEHOLDER TITLE",
-    body: "PLACEHOLDER — replace with your text. Max ~150 words. One concrete moment, specific, grounded.",
-    callout: "PLACEHOLDER — one sentence key insight or decision.",
+    title: "PRESSURE ALTITUDE",
+    body: "When I mapped happiness against time for this course, the army sat at the top — which surprises people who know what Swiss officer training actually involves. I was second-in-command of an infantry company responsible for more than 130 people. The logic of command is exact: you do not inspire through slides; you inspire by being first through the door. What drove happiness up was not the rank. It was the compression — a group of people thrown into situations that stripped away every comfort and replaced it with one question: can you hold this together? Most of the time, the answer was yes. SPHAIR, the Swiss Air Force pilot selection programme, ran in parallel. I did not get the wings, but I kept the altitude. The cockpit metaphor in this exhibition is not decorative — it is where I learned that structure and ambition are not constraints. They are the conditions for flight.",
+    callout: "Structure and high expectations do not cage people — they give them something real to push against.",
     stampText: "LOGGED",
     cargo: [
-      { label: "PLACEHOLDER — leadership artefact", url: "https://example.com", note: "1-line description" }
+      { label: "SPHAIR — Swiss Air Force selection", url: "https://www.sphair.ch",                   note: "Pilot aptitude programme" },
+      { label: "Swiss Army officer corps",           url: "https://www.vtg.admin.ch",                note: "Infantry, 2IC role, 130+ personnel" }
     ]
   },
   {
     id: 3,
     leg: "LEG 03",
     location: "ST. GALLEN, CH",
-    dateRange: "PLACEHOLDER_DATE",
+    dateRange: "SEP 2024–",
     dot: "CH-HSG",
     dotLabel: "St. Gallen",
     sketchAsset: "sketch-hsg.svg",
-    title: "PLACEHOLDER TITLE",
-    body: "PLACEHOLDER — replace with your text. Max ~150 words. One concrete moment, specific, grounded.",
-    callout: "PLACEHOLDER — one sentence key insight or decision.",
+    title: "CRUISE ALTITUDE",
+    body: "HSG is where I finally found the theoretical layer beneath everything I had already built by hand. Algorithms, data structures, system design — the vocabulary that makes engineering conversations precise. I designed a Java CMS with layered architecture and RESTful API (highest possible grade), trained and deployed a random forest model to predict restaurant revenues (Data Science Fundamentals certificate: ML, time series, neural networks), and am currently applying Domain-Driven Design to a full backend system for a vehicle subscription platform. Away from the terminal, I serve as Vice President of ESPRIT, HSG's student consulting club — co-managing real client projects, competing internationally, and using Python for data analysis. The reflection I wrote midway through the degree captures what I found: the three dimensions of university life are not equal pillars. The ground beneath all of them is pressure — and that is not a problem. It is the point.",
+    callout: "The people who leave with the best stories chose which ball to drop. The juggling itself was the point.",
     stampText: "LOGGED",
     cargo: [
-      { label: "PLACEHOLDER — student project",     url: "https://github.com/PLACEHOLDER/repo", note: "1-line description" },
-      { label: "PLACEHOLDER — paper or analysis",   url: "https://example.com",                  note: "1-line description" }
+      { label: "Vehicle subscription platform",      url: "https://github.com/thierrysuhner",        note: "DDD, full backend, BDD, API integration" },
+      { label: "Restaurant revenue ML model",        url: "https://github.com/thierrysuhner",        note: "Random forest, deployed, real staffing data" },
+      { label: "ESPRIT — HSG consulting club",       url: "https://esprit-hsg.com",                  note: "VP, international competition wins" }
     ]
   },
   {
@@ -101,12 +112,13 @@ const chapters = [
     dot: "CA-VAN",
     dotLabel: "Vancouver",
     sketchAsset: "sketch-caseit.svg",
-    title: "PLACEHOLDER TITLE",
-    body: "PLACEHOLDER — replace with your text. Max ~150 words. One concrete moment, specific, grounded.",
-    callout: "PLACEHOLDER — one sentence key insight or decision.",
+    title: "TRANSATLANTIC",
+    body: "CaseIT is one of the world's largest international business case competitions. In February I flew to Vancouver with a team from ESPRIT to compete across four days of cases, presentations, and very little sleep. We won our division. But the note I wrote in my reflection exercise does not mention the trophy. It says: \"new friends, deep talks, going through hard work together.\" That is the accurate account. What I remember from Vancouver is not the conference room. It is the hotel lobby late on the second evening — working through a market-sizing framework with three people who had become real friends in 48 hours. I have been noticing a pattern: my highest moments are not achievement moments. They are moments of difficulty endured alongside people I respect. The trophy is evidence that those moments happened. It is not the point.",
+    callout: "My best work has always happened in rooms where the stakes were real and the people were worth impressing.",
     stampText: "LOGGED",
     cargo: [
-      { label: "PLACEHOLDER — case it! deck", url: "https://example.com", note: "1-line description" }
+      { label: "CaseIT 2026 — Vancouver",            url: "https://www.caseit.ca",                   note: "Division winners, international field" },
+      { label: "ESPRIT — competition team",          url: "https://esprit-hsg.com",                  note: "4-person team, cross-functional prep" }
     ]
   },
   {
@@ -118,13 +130,21 @@ const chapters = [
     dotLabel: "Google Zürich",
     sketchAsset: "sketch-googzh.svg",
     title: "FILED. AWAITING CLEARANCE.",
-    body: "PLACEHOLDER — short approach note. Two or three handwritten sentences explaining why this is the final waypoint. Keep it human — the formal pitch lives in the transmission.",
-    callout: "PLACEHOLDER — one sentence on what you'd bring to a Google engineering or product team.",
+    body: "Five legs. Each one flew somewhere new — technically, professionally, personally. A terminal at fifteen, an infantry company at twenty-two, a case competition podium at twenty-three, a computer science degree still in progress. All connected by the same thread: environments where engineering challenges are too interesting to put down, and where the people around me refuse to accept good-enough. This waypoint is the first I have not yet reached. The destination is Google Zürich, at the Hürlimann Areal — a former brewery that became a hub for people building products used by billions. Things change function when the right people inhabit them. I want to build systems where engineering decisions affect millions of users, and learn from the engineers who already do. The route here was non-standard. So is the request for clearance.",
+    callout: "I want to build systems where engineering decisions affect millions of people — and be in a room with engineers who already have.",
     stampText: null,
+<<<<<<< HEAD
     contactEmail: "hello@tsuhner.com",
     contactLinkedin: "linkedin.com/in/thierrysuhner",
     cargo: [
       { label: "GitHub · see all repos",  url: "https://github.com/thierrysuhner", note: "Public work, weekend builds, open source" }
+=======
+    contactEmail: "thierry.suhner@gmx.ch",
+    contactLinkedin: "linkedin.com/in/thierrysuhner",
+    cargo: [
+      { label: "GitHub · thierrysuhner",             url: "https://github.com/thierrysuhner",        note: "Public work, weekend builds, open source" },
+      { label: "CV · one-pager",                     url: "https://github.com/thierrysuhner",        note: "PDF — update link before sending" }
+>>>>>>> 75d52c2 (Fill real content, add preflight animation and reset button)
     ],
     isFinalDestination: true
   }
