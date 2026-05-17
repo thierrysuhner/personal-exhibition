@@ -2,7 +2,8 @@
 const pilot = {
   githubUser: "thierrysuhner",
   callsign:   "TS-001",
-  homeBase:   "LSZH"
+  homeBase:   "LSZH",
+  actype:     "PYTHON"   // override GitHub language detection
 };
 
 // ─── Pre-flight checklist (press C in the app) ────────────────────

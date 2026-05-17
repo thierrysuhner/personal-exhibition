@@ -352,7 +352,10 @@ class FlightLogApp {
     const cached   = sessionStorage.getItem(cacheKey);
     if (cached) {
       try {
-        this.applyInstruments(JSON.parse(cached));
+        const data = JSON.parse(cached);
+        // Always apply the hardcoded actype override, even from cache
+        if (pilot.actype) data.actype = pilot.actype.slice(0, 8);
+        this.applyInstruments(data);
         return;
       } catch {}
     }
@@ -379,7 +382,7 @@ class FlightLogApp {
 
       const payload = {
         fleet:        user.public_repos,
-        actype:       primaryLang.toUpperCase().slice(0, 8),
+        actype:       (pilot.actype || primaryLang.toUpperCase()).slice(0, 8),
         lastDep:      lastPushedAt ? this.formatDepTime(lastPushedAt) : '—',
         hours:        repos.filter(r => !r.fork).length * 100 // rough proxy — visitor sees it as flight hours
       };
