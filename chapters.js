@@ -143,7 +143,7 @@ const chapters = [
     contactLinkedin: "linkedin.com/in/thierrysuhner",
     cargo: [
       { label: "GitHub · thierrysuhner",             url: "https://github.com/thierrysuhner",        note: "Public work, weekend builds, open source" },
-      { label: "CV · one-pager",                     url: "https://github.com/thierrysuhner",        note: "PDF — update link before sending" }
+      { label: "CV · one-pager",                     url: "cv.pdf",                                  note: "PDF, opens in browser" }
 >>>>>>> 75d52c2 (Fill real content, add preflight animation and reset button)
     ],
     isFinalDestination: true
