@@ -4,7 +4,8 @@ class FlightLogApp {
       currentChapter: 1,
       connectedDots: [1],
       activeOrigin: null,
-      isAnimating: false
+      isAnimating: false,
+      transmissionPlayed: false
     };
 
     this.loadStateFromStorage();
@@ -67,8 +68,11 @@ class FlightLogApp {
     this.map = new RouteMap(this.state.connectedDots);
     this.renderChapter(this.state.currentChapter);
     this.attachEventListeners();
+    this.attachChecklistListeners();
+    this.attachTransmissionListeners();
     this.updateIndicators();
     this.updateHintText();
+    this.loadCockpitInstruments();
   }
 
   attachEventListeners() {
@@ -99,6 +103,12 @@ class FlightLogApp {
         this.saveStateToStorage();
         this.renderChapter(chapterId);
         this.updateHintText();
+
+        if (chapterId === 5 && !this.state.transmissionPlayed) {
+          this.state.transmissionPlayed = true;
+          this.saveStateToStorage();
+          setTimeout(() => this.playTransmission(), 1200);
+        }
       }
     });
   }
@@ -115,8 +125,8 @@ class FlightLogApp {
     overlay.classList.add('active');
 
     if (video) {
-      const legIndex = fromChapterId - 1;      // 0 = first leg, 3 = last leg
-      const numLegs  = chapters.length - 1;   // 4
+      const legIndex = fromChapterId - 1;
+      const numLegs  = chapters.length - 1;
 
       const startSegment = () => {
         if (isFinite(video.duration) && video.duration > 0) {
@@ -146,7 +156,6 @@ class FlightLogApp {
       hud.textContent += line + '\n';
     }
 
-    // Animated progress bar — fill block by block, then reveal COMPLETE
     await this.sleep(280);
     hud.textContent += `${pad('PROGRESS', 9)}   `;
     for (let i = 0; i < 16; i++) {
@@ -177,6 +186,11 @@ class FlightLogApp {
     setTimeout(() => {
       container.innerHTML = this.buildChapterHTML(chapter);
       container.style.opacity = '1';
+      if (chapter.isFinalDestination) {
+        container.classList.add('final-destination');
+      } else {
+        container.classList.remove('final-destination');
+      }
     }, 200);
   }
 
@@ -193,6 +207,25 @@ class FlightLogApp {
     html += `<div class="chapter-body">${chapter.body}</div>`;
     html += `<div class="chapter-callout">${chapter.callout}</div>`;
 
+    if (chapter.cargo && chapter.cargo.length) {
+      html += `<div class="chapter-cargo">`;
+      html += `<div class="cargo-header">CARGO MANIFEST</div>`;
+      html += `<ul class="cargo-list">`;
+      for (const item of chapter.cargo) {
+        const href = item.url || '#';
+        html += `
+          <li class="cargo-item">
+            <a class="cargo-link" href="${href}" target="_blank" rel="noopener">
+              <span class="cargo-arrow">▸</span>
+              <span class="cargo-label">${item.label}</span>
+            </a>
+            ${item.note ? `<span class="cargo-note">${item.note}</span>` : ''}
+          </li>
+        `;
+      }
+      html += `</ul></div>`;
+    }
+
     if (chapter.stampText) {
       html += `<div class="chapter-stamp">${chapter.stampText}</div>`;
     } else {
@@ -203,9 +236,12 @@ class FlightLogApp {
           html += `→ <a href="mailto:${chapter.contactEmail}">${chapter.contactEmail}</a>`;
         }
         if (chapter.contactLinkedin) {
-          html += ` or <a href="https://${chapter.contactLinkedin}" target="_blank">${chapter.contactLinkedin}</a>`;
+          html += ` or <a href="https://${chapter.contactLinkedin}" target="_blank" rel="noopener">${chapter.contactLinkedin}</a>`;
         }
         html += `</div>`;
+      }
+      if (chapter.isFinalDestination) {
+        html += `<button class="replay-transmission" id="replay-transmission" type="button">▸ replay transmission</button>`;
       }
     }
 
@@ -214,6 +250,10 @@ class FlightLogApp {
 
     setTimeout(() => {
       this.loadSketch(chapter.sketchAsset, chapter.id);
+      const replay = document.getElementById('replay-transmission');
+      if (replay) {
+        replay.addEventListener('click', () => this.playTransmission());
+      }
     }, 100);
 
     return div.innerHTML;
@@ -259,6 +299,7 @@ class FlightLogApp {
       const indicator = document.getElementById(`indicator-${i}`);
       if (this.state.connectedDots.includes(i)) {
         indicator.classList.add('connected');
+        if (i === 5) indicator.classList.add('final');
       }
     }
   }
@@ -270,8 +311,177 @@ class FlightLogApp {
     } else if (this.state.connectedDots.length < 5) {
       hintEl.textContent = 'connect the next waypoint';
     } else {
-      hintEl.textContent = 'route complete';
+      hintEl.textContent = 'route complete · awaiting clearance';
     }
+  }
+
+  // ─── Live cockpit instruments (GitHub API) ─────────────────────────
+  async loadCockpitInstruments() {
+    if (!pilot || !pilot.githubUser || pilot.githubUser.startsWith('PLACEHOLDER')) {
+      this.setInstrument('inst-hours',   '—');
+      this.setInstrument('inst-actype',  '—');
+      this.setInstrument('inst-fleet',   '—');
+      this.setInstrument('inst-lastdep', 'OFFLINE');
+      return;
+    }
+
+    const cacheKey = `ghCache:${pilot.githubUser}`;
+    const cached   = sessionStorage.getItem(cacheKey);
+    if (cached) {
+      try {
+        this.applyInstruments(JSON.parse(cached));
+        return;
+      } catch {}
+    }
+
+    try {
+      const [userRes, reposRes] = await Promise.all([
+        fetch(`https://api.github.com/users/${pilot.githubUser}`),
+        fetch(`https://api.github.com/users/${pilot.githubUser}/repos?per_page=100&sort=pushed`)
+      ]);
+
+      if (!userRes.ok || !reposRes.ok) throw new Error('github fetch failed');
+
+      const user  = await userRes.json();
+      const repos = await reposRes.json();
+
+      const langCounts = {};
+      let lastPushedAt = null;
+      for (const r of repos) {
+        if (r.fork) continue;
+        if (r.language) langCounts[r.language] = (langCounts[r.language] || 0) + 1;
+        if (r.pushed_at && (!lastPushedAt || r.pushed_at > lastPushedAt)) lastPushedAt = r.pushed_at;
+      }
+      const primaryLang = Object.entries(langCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || '—';
+
+      const payload = {
+        fleet:        user.public_repos,
+        actype:       primaryLang.toUpperCase().slice(0, 8),
+        lastDep:      lastPushedAt ? this.formatDepTime(lastPushedAt) : '—',
+        hours:        repos.filter(r => !r.fork).length * 100 // rough proxy — visitor sees it as flight hours
+      };
+      sessionStorage.setItem(cacheKey, JSON.stringify(payload));
+      this.applyInstruments(payload);
+    } catch (err) {
+      this.setInstrument('inst-lastdep', 'NO SIGNAL');
+    }
+  }
+
+  applyInstruments(p) {
+    this.setInstrument('inst-hours',   p.hours);
+    this.setInstrument('inst-actype',  p.actype);
+    this.setInstrument('inst-fleet',   p.fleet);
+    this.setInstrument('inst-lastdep', p.lastDep);
+  }
+
+  setInstrument(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(value);
+  }
+
+  formatDepTime(iso) {
+    const d = new Date(iso);
+    const dayMs = 24 * 60 * 60 * 1000;
+    const diff = Math.floor((Date.now() - d.getTime()) / dayMs);
+    if (diff <= 0)   return 'TODAY';
+    if (diff === 1)  return '1D AGO';
+    if (diff < 30)   return `${diff}D AGO`;
+    if (diff < 365)  return `${Math.floor(diff / 30)}MO AGO`;
+    return `${Math.floor(diff / 365)}Y AGO`;
+  }
+
+  // ─── Preflight checklist drawer ────────────────────────────────────
+  attachChecklistListeners() {
+    const drawer = document.getElementById('checklist-drawer');
+    const open   = () => {
+      this.renderChecklist();
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    };
+    const close  = () => {
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    };
+
+    document.getElementById('checklist-toggle').addEventListener('click', open);
+    document.getElementById('checklist-close').addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'c' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        if (drawer.classList.contains('open')) close();
+        else open();
+      } else if (e.key === 'Escape') {
+        close();
+      }
+    });
+  }
+
+  renderChecklist() {
+    const body = document.getElementById('checklist-body');
+    if (!body || typeof preflightChecklist === 'undefined') return;
+    body.innerHTML = preflightChecklist.map(group => `
+      <section class="checklist-group">
+        <h3 class="checklist-group-title">${group.group}</h3>
+        <ul class="checklist-items">
+          ${group.items.map(item => `
+            <li class="checklist-item">
+              <span class="checklist-box">✓</span>
+              <span class="checklist-text">${item}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </section>
+    `).join('');
+  }
+
+  // ─── ATC transmission + letter (after Leg 5) ───────────────────────
+  attachTransmissionListeners() {
+    document.getElementById('letter-close').addEventListener('click', () => this.closeTransmission());
+    document.getElementById('transmission-overlay').addEventListener('click', (e) => {
+      if (e.target.id === 'transmission-overlay') this.closeTransmission();
+    });
+  }
+
+  async playTransmission() {
+    const overlay = document.getElementById('transmission-overlay');
+    const radio   = document.getElementById('transmission-radio');
+    const letter  = document.getElementById('clearance-letter');
+
+    radio.innerHTML = '';
+    letter.hidden = true;
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
+
+    for (const t of atcTransmission) {
+      const line = document.createElement('div');
+      line.className = `radio-line ${t.who === 'TS-001' ? 'radio-pilot' : 'radio-tower'}`;
+      line.innerHTML = `
+        <span class="radio-freq">${t.freq}</span>
+        <span class="radio-who">${t.who}</span>
+        <span class="radio-msg"></span>
+      `;
+      radio.appendChild(line);
+
+      const msgEl = line.querySelector('.radio-msg');
+      for (const ch of t.msg) {
+        msgEl.textContent += ch;
+        await this.sleep(18);
+      }
+      await this.sleep(420);
+    }
+
+    await this.sleep(700);
+    document.getElementById('letter-to').textContent   = clearanceLetter.to;
+    document.getElementById('letter-from').textContent = clearanceLetter.from;
+    document.getElementById('letter-body').innerHTML   = clearanceLetter.body
+      .map(p => `<p>${p}</p>`).join('');
+    document.getElementById('letter-footer').textContent = clearanceLetter.signoff;
+    letter.hidden = false;
+  }
+
+  closeTransmission() {
+    const overlay = document.getElementById('transmission-overlay');
+    overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden', 'true');
   }
 
   saveStateToStorage() {
@@ -281,8 +491,8 @@ class FlightLogApp {
   loadStateFromStorage() {
     const saved = sessionStorage.getItem('flightLogState');
     if (saved) {
-      this.state = JSON.parse(saved);
-      this.state.isAnimating = false; // never persist a locked state across page loads
+      this.state = { ...this.state, ...JSON.parse(saved) };
+      this.state.isAnimating = false;
     }
   }
 }

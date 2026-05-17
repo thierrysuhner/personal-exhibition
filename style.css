@@ -13,6 +13,12 @@
     --screen-green: #00E676;
     --bezel: #111;
 
+    /* Subtle Google accents — used only on Leg 5 and the clearance letter */
+    --g-blue:   #4285F4;
+    --g-red:    #EA4335;
+    --g-yellow: #FBBC04;
+    --g-green:  #34A853;
+
     --font-caveat: 'Caveat', cursive;
     --font-mono: 'IBM Plex Mono', monospace;
 }
@@ -121,6 +127,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 24px;
     font-family: var(--font-mono);
     font-size: 0.62rem;
     font-weight: 500;
@@ -130,6 +137,42 @@ body {
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(0, 180, 255, 0.22);
     color: rgba(0, 200, 255, 0.5);
+}
+
+/* Cockpit instruments — live GitHub stats */
+.cockpit-instruments {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex: 1;
+    justify-content: center;
+}
+
+.instrument {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 4px 10px;
+    border: 1px solid rgba(0, 180, 255, 0.18);
+    border-radius: 4px;
+    background: rgba(0, 30, 60, 0.35);
+    min-width: 72px;
+    cursor: help;
+}
+
+.instrument-label {
+    font-size: 0.5rem;
+    color: rgba(0, 200, 255, 0.45);
+    letter-spacing: 0.16em;
+}
+
+.instrument-value {
+    font-size: 0.78rem;
+    color: var(--screen-green);
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    text-shadow: 0 0 8px rgba(0, 230, 118, 0.35);
 }
 
 /* Pages */
@@ -493,6 +536,413 @@ body {
     z-index: 11;
 }
 
+/* ─── Cargo manifest ─────────────────────────────────────── */
+.chapter-cargo {
+    margin: 22px 0 10px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(26, 26, 26, 0.35);
+}
+
+.cargo-header {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-dark);
+    margin-bottom: 8px;
+    opacity: 0.75;
+}
+
+.cargo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cargo-item {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.4;
+}
+
+.cargo-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    color: var(--ink-dark);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.cargo-link:hover {
+    color: var(--green-active);
+    border-bottom-color: var(--green-active);
+}
+
+.cargo-arrow {
+    color: var(--amber-warn);
+    font-size: 0.7rem;
+}
+
+.cargo-label {
+    font-weight: 500;
+}
+
+.cargo-note {
+    font-family: var(--font-caveat);
+    font-size: 0.88rem;
+    color: var(--ink-hand);
+    opacity: 0.85;
+}
+
+/* Final destination: tint cargo accents Google-blue */
+.chapter-container.final-destination .cargo-arrow {
+    color: var(--g-blue);
+}
+.chapter-container.final-destination .cargo-link:hover {
+    color: var(--g-blue);
+    border-bottom-color: var(--g-blue);
+}
+.chapter-container.final-destination .chapter-header {
+    border-bottom-color: var(--g-blue);
+}
+
+/* Final indicator pulses Google-blue */
+.indicator.connected.final {
+    background: var(--g-blue);
+    border-color: var(--g-blue);
+    box-shadow: 0 0 8px var(--g-blue);
+}
+
+/* Final map dot — make 'ready' state blue instead of cyan */
+.map-dot[data-final="true"].ready {
+    filter: drop-shadow(0 0 6px var(--g-blue));
+    animation: pulseFinal 2s ease-in-out infinite;
+}
+.map-dot[data-final="true"]:hover.ready {
+    filter: drop-shadow(0 0 14px var(--g-blue));
+}
+@keyframes pulseFinal {
+    0%, 100% { filter: drop-shadow(0 0 3px var(--g-blue)); }
+    50%       { filter: drop-shadow(0 0 12px var(--g-blue)); }
+}
+
+/* Replay button in final chapter */
+.replay-transmission {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid var(--g-blue);
+    color: var(--g-blue);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.replay-transmission:hover {
+    background: var(--g-blue);
+    color: #fff;
+}
+
+/* ─── Checklist toggle button (footer) ───────────────────── */
+.checklist-toggle {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    color: rgba(0, 200, 255, 0.65);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+}
+.checklist-toggle:hover {
+    color: var(--screen-green);
+    border-color: var(--screen-green);
+}
+
+/* ─── Preflight checklist drawer ─────────────────────────── */
+.checklist-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 360px;
+    max-width: 92vw;
+    height: 100vh;
+    background: var(--bg-paper);
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.5);
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+    z-index: 700;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 26px;
+    overflow-y: auto;
+}
+.checklist-drawer.open {
+    transform: translateX(0);
+}
+
+.checklist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-dark);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink-dark);
+    margin-bottom: 18px;
+}
+
+.checklist-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--ink-dark);
+    padding: 0 4px;
+}
+
+.checklist-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.checklist-group-title {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    color: var(--ink-dark);
+    opacity: 0.6;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.checklist-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ink-dark);
+}
+
+.checklist-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--green-active);
+    color: var(--green-active);
+    font-size: 0.7rem;
+    line-height: 1;
+}
+
+.checklist-text {
+    font-family: var(--font-caveat);
+    font-size: 1rem;
+    color: var(--ink-hand);
+}
+
+.checklist-footer {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.25);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-dark);
+    opacity: 0.6;
+}
+.checklist-footer kbd {
+    display: inline-block;
+    padding: 1px 5px;
+    border: 1px solid var(--ink-dark);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    margin: 0 2px;
+}
+
+/* ─── ATC transmission overlay ───────────────────────────── */
+.transmission-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 14, 0.92);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+.transmission-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.transmission-stage {
+    width: min(720px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.transmission-radio {
+    background: rgba(2, 12, 24, 0.92);
+    border: 1px solid rgba(0, 200, 255, 0.25);
+    border-radius: 6px;
+    padding: 22px 26px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: rgba(0, 220, 255, 0.85);
+    box-shadow: 0 0 40px rgba(0, 150, 255, 0.12);
+}
+
+.radio-line {
+    display: grid;
+    grid-template-columns: 60px 110px 1fr;
+    gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px dashed rgba(0, 200, 255, 0.08);
+}
+.radio-line:last-child {
+    border-bottom: none;
+}
+
+.radio-freq {
+    color: var(--amber-warn);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+}
+
+.radio-who {
+    font-weight: 500;
+    letter-spacing: 0.08em;
+}
+.radio-pilot .radio-who { color: var(--screen-green); }
+.radio-tower .radio-who { color: var(--g-blue); }
+
+.radio-msg {
+    color: rgba(220, 235, 250, 0.92);
+}
+
+/* The letter */
+.clearance-letter {
+    background: var(--bg-paper);
+    color: var(--ink-dark);
+    padding: 30px 34px 26px;
+    border-radius: 2px;
+    transform: rotate(-0.3deg);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+    font-family: var(--font-caveat);
+    position: relative;
+    animation: letterIn 600ms ease-out;
+}
+
+@keyframes letterIn {
+    from { opacity: 0; transform: rotate(-0.3deg) translateY(20px); }
+    to   { opacity: 1; transform: rotate(-0.3deg) translateY(0); }
+}
+
+.letter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--ink-dark);
+    margin-bottom: 16px;
+}
+
+.letter-stamp {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    padding: 5px 10px;
+    border: 1.5px solid var(--g-blue);
+    color: var(--g-blue);
+    text-transform: uppercase;
+}
+
+.letter-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-dark);
+}
+
+.letter-body {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--ink-hand);
+}
+.letter-body p {
+    margin: 0 0 12px;
+}
+
+.letter-footer {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--ink-dark);
+    font-family: var(--font-caveat);
+    font-size: 1.05rem;
+    color: var(--ink-hand);
+    white-space: pre-line;
+}
+
+.letter-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    color: var(--ink-dark);
+    opacity: 0.5;
+    text-transform: uppercase;
+}
+.letter-close:hover { opacity: 1; }
+
 /* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 767px) {
     #logbook {
@@ -538,5 +988,31 @@ body {
         height: auto;
         flex-wrap: wrap;
         gap: 8px;
+    }
+
+    .cockpit-instruments {
+        display: none;
+    }
+
+    .checklist-toggle {
+        font-size: 0.5rem;
+        padding: 4px 8px;
+    }
+
+    .clearance-letter {
+        padding: 22px 22px 18px;
+    }
+
+    .letter-body { font-size: 1.05rem; }
+}
+
+/* Tablet — keep instruments but shrink them */
+@media (min-width: 768px) and (max-width: 1100px) {
+    .cockpit-instruments {
+        gap: 12px;
+    }
+    .instrument {
+        min-width: 60px;
+        padding: 3px 6px;
     }
 }

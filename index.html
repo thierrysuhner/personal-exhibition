@@ -21,6 +21,24 @@
             <!-- Header -->
             <header class="logbook-header">
                 <span class="header-title">FLIGHT LOG // T.S.</span>
+                <div id="cockpit-instruments" class="cockpit-instruments" aria-label="live cockpit instruments">
+                    <span class="instrument" title="Flight hours = total public commits">
+                        <span class="instrument-label">FLT HRS</span>
+                        <span class="instrument-value" id="inst-hours">—</span>
+                    </span>
+                    <span class="instrument" title="Aircraft type = primary language">
+                        <span class="instrument-label">A/C TYPE</span>
+                        <span class="instrument-value" id="inst-actype">—</span>
+                    </span>
+                    <span class="instrument" title="Active aircraft = public repo count">
+                        <span class="instrument-label">FLEET</span>
+                        <span class="instrument-value" id="inst-fleet">—</span>
+                    </span>
+                    <span class="instrument" title="Last departure = latest push">
+                        <span class="instrument-label">LAST DEP</span>
+                        <span class="instrument-value" id="inst-lastdep">—</span>
+                    </span>
+                </div>
                 <span class="header-meta" id="header-meta">ROUTE ACTIVE</span>
             </header>
 
@@ -51,6 +69,9 @@
                     <span id="indicator-5" class="indicator"></span>
                 </div>
                 <div id="hint-text" class="hint-text">click a dot to begin</div>
+                <button id="checklist-toggle" class="checklist-toggle" type="button" aria-label="open preflight checklist">
+                    [C] PREFLIGHT CHECKLIST
+                </button>
             </footer>
         </div>
     </main>
@@ -62,6 +83,35 @@
         </video>
         <div class="cockpit-vignette"></div>
         <div class="flight-hud" id="flight-hud"></div>
+    </div>
+
+    <!-- Preflight Checklist Drawer -->
+    <aside id="checklist-drawer" class="checklist-drawer" aria-hidden="true">
+        <div class="checklist-header">
+            <span>PRE-FLIGHT CHECKLIST</span>
+            <button id="checklist-close" class="checklist-close" type="button" aria-label="close checklist">✕</button>
+        </div>
+        <div id="checklist-body" class="checklist-body"></div>
+        <div class="checklist-footer">press <kbd>C</kbd> or <kbd>esc</kbd> to close</div>
+    </aside>
+
+    <!-- ATC Transmission + Letter (after Leg 5 lands) -->
+    <div id="transmission-overlay" class="transmission-overlay" aria-hidden="true">
+        <div class="transmission-stage">
+            <div class="transmission-radio" id="transmission-radio"></div>
+            <article class="clearance-letter" id="clearance-letter" hidden>
+                <header class="letter-header">
+                    <div class="letter-stamp">CLEARANCE REQUEST</div>
+                    <div class="letter-meta">
+                        <span id="letter-to"></span>
+                        <span id="letter-from"></span>
+                    </div>
+                </header>
+                <div class="letter-body" id="letter-body"></div>
+                <footer class="letter-footer" id="letter-footer"></footer>
+                <button id="letter-close" class="letter-close" type="button">close transmission</button>
+            </article>
+        </div>
     </div>
 
     <!-- Scripts -->

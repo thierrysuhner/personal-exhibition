@@ -2,13 +2,13 @@ class RouteMap {
   constructor(restoredConnectedDots = []) {
     this.svg = document.getElementById('map-svg');
     this.state = {
-      dots: ['CH-LENZ', 'CH-ARMY', 'CH-HSG', 'CA-VAN', 'XX-NEXT'],
+      dots: ['CH-LENZ', 'CH-ARMY', 'CH-HSG', 'CA-VAN', 'CH-GOOG'],
       dotStates: {
         'CH-LENZ': 'ready',
         'CH-ARMY': 'locked',
         'CH-HSG': 'locked',
         'CA-VAN': 'locked',
-        'XX-NEXT': 'locked'
+        'CH-GOOG': 'locked'
       },
       connectedPairs: [],
       activeOrigin: null,
@@ -121,6 +121,7 @@ class RouteMap {
     img.setAttribute('height', 24);
     img.classList.add('map-dot', dotState);
     img.dataset.dotId = dotId;
+    if (dotId === 'CH-GOOG') img.dataset.final = 'true';
     img.onerror = () => {
       img.remove();
       this.drawRoughDot(dotId, px, py, dotState);
@@ -136,9 +137,11 @@ class RouteMap {
   }
 
   drawRoughDot(dotId, px, py, state) {
+    const isFinal = dotId === 'CH-GOOG';
     const color = state === 'locked'    ? 'rgba(0,150,200,0.2)'
-                : state === 'connected' ? '#00E676'
-                :                        '#00BFFF';
+                : state === 'connected' ? (isFinal ? '#4285F4' : '#00E676')
+                : isFinal               ? '#4285F4'
+                :                         '#00BFFF';
     const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     dot.setAttribute('cx', px);
     dot.setAttribute('cy', py);
@@ -148,6 +151,7 @@ class RouteMap {
     dot.setAttribute('stroke-width', 1);
     dot.classList.add('map-dot', state);
     dot.dataset.dotId = dotId;
+    if (dotId === 'CH-GOOG') dot.dataset.final = 'true';
     this.svg.appendChild(dot);
   }
 
