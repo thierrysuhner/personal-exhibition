@@ -731,9 +731,9 @@ body {
 
 .hint-text {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.90rem;
     color: rgba(0, 220, 255, 0.9);
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     text-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
 }

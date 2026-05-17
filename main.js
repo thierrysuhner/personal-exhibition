@@ -158,11 +158,16 @@ class FlightLogApp {
 
     const pad = (s, n) => String(s).padEnd(n);
 
+    // Only show AIRBORNE for the two flight legs (Leg 3→4 and Leg 4→5)
+    const isAirborne = (fromChapter.id === 3 && toChapter.id === 4) ||
+                       (fromChapter.id === 4 && toChapter.id === 5);
+    const status = isAirborne ? 'AIRBORNE' : 'ROUTE ACTIVE';
+
     const header = [
       `${pad('DEP', 9)}·  ${fromChapter.title}`,
       `${pad('ARR', 9)}·  ${toChapter.title}`,
       ``,
-      `${pad('STATUS', 9)}   AIRBORNE`,
+      `${pad('STATUS', 9)}   ${status}`,
     ];
 
     for (const line of header) {
@@ -379,11 +384,11 @@ class FlightLogApp {
     const nextChapter = chapters.find(c => c.id === connected + 1);
 
     if (connected === 1) {
-      hintEl.textContent = '① click LENZBURG on the map to select it';
+      hintEl.textContent = '① click EARLY RESPONSIBILITY on the map to select it';
     } else if (connected === 2) {
-      hintEl.textContent = `② now click ${nextChapter?.dotLabel?.toUpperCase() ?? 'the next dot'} to fly the leg`;
+      hintEl.textContent = `② now click ${nextChapter?.title?.toUpperCase() ?? 'the next leg'} to fly the leg`;
     } else if (connected < 5) {
-      hintEl.textContent = `② click ${nextChapter?.dotLabel?.toUpperCase() ?? 'the next dot'} to fly the next leg`;
+      hintEl.textContent = `② click ${nextChapter?.title?.toUpperCase() ?? 'the next leg'} to fly the next leg`;
     } else {
       hintEl.textContent = 'route complete · awaiting clearance';
     }
@@ -396,7 +401,7 @@ class FlightLogApp {
     const nextIdx  = chapters.findIndex(c => c.dot === dotId) + 1;
     const nextChap = chapters[nextIdx];
     if (nextChap) {
-      hintEl.textContent = `→ now click ${nextChap.dotLabel.toUpperCase()} to connect`;
+      hintEl.textContent = `→ now click ${nextChap.title.toUpperCase()} to connect`;
     }
   }
 
