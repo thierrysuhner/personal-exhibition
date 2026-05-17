@@ -323,23 +323,24 @@ body {
     opacity: 0.3;
 }
 
-/* Leg title on left side of map */
+/* Full leg titles on left side of map */
 .leg-title-text {
     font-family: var(--font-body);
-    font-size: 0.56rem;
+    font-size: 0.62rem;
     font-weight: 500;
-    fill: rgba(0, 200, 255, 0.65);
+    fill: rgba(0, 200, 255, 0.7);
     pointer-events: none;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
 }
 
 .leg-title.locked .leg-title-text {
-    opacity: 0.25;
+    opacity: 0.2;
 }
 
 .leg-title.ready .leg-title-text,
 .leg-title.connected .leg-title-text {
-    fill: rgba(0, 220, 255, 0.85);
+    fill: rgba(0, 220, 255, 0.9);
     font-weight: 600;
 }
 

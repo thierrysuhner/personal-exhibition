@@ -179,20 +179,13 @@ class RouteMap {
     };
     this.svg.appendChild(img);
 
-    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    label.setAttribute('x', px);
-    label.setAttribute('y', py + 22);
-    label.setAttribute('class', `map-label ${dotState}`);
-    label.textContent = chapter.mapLabel || chapter.dotLabel;
-    this.svg.appendChild(label);
-
-    // Draw leg title/waypoint name on the left side with wrapping
+    // Draw full leg title on the left side with wrapping
     this.drawLegTitleLeft(chapter, px, py, dotState);
   }
 
   drawLegTitleLeft(chapter, px, py, dotState) {
     const title = chapter.title;
-    const maxCharsPerLine = 12;
+    const maxCharsPerLine = 14;
     let lines = [];
 
     // Split title into lines that fit the space
@@ -215,7 +208,7 @@ class RouteMap {
     for (let i = 0; i < lines.length; i++) {
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       text.setAttribute('x', px - 50);
-      text.setAttribute('y', py - 8 + (i * 12));
+      text.setAttribute('y', py - 4 + (i * 14));
       text.setAttribute('class', 'leg-title-text');
       text.setAttribute('text-anchor', 'end');
       text.textContent = lines[i];
