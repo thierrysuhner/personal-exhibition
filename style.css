@@ -365,22 +365,88 @@ body {
     50%       { opacity: 1; }
 }
 
-/* Right page — printed paper */
+/* Right page — cockpit clipboard board */
 .right-page {
-    background: var(--bg-paper);
-    box-shadow:
-        4px 8px 40px rgba(0, 0, 0, 0.7),
-        0 0 0 1px rgba(255, 255, 255, 0.06);
-    transform: rotate(-0.4deg);
-    padding: 28px 32px 28px 32px;
-    overflow-y: auto;
+    background: #1d1f23;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px 10px;
+    border-radius: 4px 4px 2px 2px;
+    position: relative;
     height: 100%;
     width: 100%;
+    box-shadow:
+        0 10px 48px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(255, 255, 255, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.right-page::-webkit-scrollbar { width: 3px; }
-.right-page::-webkit-scrollbar-track { background: transparent; }
-.right-page::-webkit-scrollbar-thumb {
+/* Metal spring clip bar */
+.right-page::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 68%;
+    height: 32px;
+    background: linear-gradient(180deg,
+        #d6d6d6 0%,
+        #f0f0f0 16%,
+        #c4c4c4 44%,
+        #979797 74%,
+        #7e7e7e 100%);
+    border-radius: 6px 6px 3px 3px;
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+        inset -1px 0 0 rgba(0, 0, 0, 0.12),
+        inset 1px 0 0 rgba(255, 255, 255, 0.2);
+    z-index: 20;
+}
+
+/* Spring coil texture inside the clip */
+.right-page::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(68% - 26px);
+    height: 9px;
+    background: repeating-linear-gradient(90deg,
+        rgba(65,  65,  65,  0.9) 0px,
+        rgba(65,  65,  65,  0.9) 2px,
+        rgba(185, 185, 185, 0.7) 2px,
+        rgba(185, 185, 185, 0.7) 5px,
+        rgba(85,  85,  85,  0.9) 5px,
+        rgba(85,  85,  85,  0.9) 7px,
+        rgba(210, 210, 210, 0.5) 7px,
+        rgba(210, 210, 210, 0.5) 9px
+    );
+    border-radius: 1px;
+    z-index: 21;
+}
+
+/* Paper sheet held on the board */
+.paper-sheet {
+    background: var(--bg-paper);
+    flex: 1;
+    min-height: 0;
+    padding: 40px 32px 28px;
+    overflow-y: auto;
+    transform: rotate(-0.4deg);
+    position: relative;
+    z-index: 1;
+    box-shadow:
+        2px 6px 22px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(0, 0, 0, 0.07);
+}
+
+.paper-sheet::-webkit-scrollbar { width: 3px; }
+.paper-sheet::-webkit-scrollbar-track { background: transparent; }
+.paper-sheet::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 2px;
 }
@@ -1131,6 +1197,9 @@ body {
     .logbook-spread > .right-page {
         grid-column: 1;
         grid-row: 3;
+    }
+
+    .paper-sheet {
         transform: none;
     }
 

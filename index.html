@@ -22,19 +22,19 @@
             <header class="logbook-header">
                 <span class="header-title">FLIGHT LOG // T.S.</span>
                 <div id="cockpit-instruments" class="cockpit-instruments" aria-label="live cockpit instruments">
-                    <span class="instrument" title="Flight hours = total public commits">
+                    <span class="instrument" data-tooltip="Flight hours — proxy for time spent in the codebase (repos × 100)">
                         <span class="instrument-label">FLT HRS</span>
                         <span class="instrument-value" id="inst-hours">—</span>
                     </span>
-                    <span class="instrument" title="Aircraft type = primary language">
+                    <span class="instrument" data-tooltip="Aircraft type — primary programming language across public repos">
                         <span class="instrument-label">A/C TYPE</span>
                         <span class="instrument-value" id="inst-actype">—</span>
                     </span>
-                    <span class="instrument" title="Active aircraft = public repo count">
+                    <span class="instrument" data-tooltip="Fleet size — total public repositories on GitHub">
                         <span class="instrument-label">FLEET</span>
                         <span class="instrument-value" id="inst-fleet">—</span>
                     </span>
-                    <span class="instrument" title="Last departure = latest push">
+                    <span class="instrument" data-tooltip="Last departure — most recent push to any public repo">
                         <span class="instrument-label">LAST DEP</span>
                         <span class="instrument-value" id="inst-lastdep">—</span>
                     </span>
@@ -53,9 +53,11 @@
             <!-- Center Binding -->
             <div class="binding"></div>
 
-            <!-- Right Page: Flight Plan Paper -->
+            <!-- Right Page: Cockpit clipboard + paper -->
             <section class="right-page">
-                <div id="chapter-container" class="chapter-container">
+                <div class="paper-sheet">
+                    <div id="chapter-container" class="chapter-container">
+                    </div>
                 </div>
             </section>
 
