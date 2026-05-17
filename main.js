@@ -224,10 +224,12 @@ class FlightLogApp {
       container.innerHTML = html;
       container.style.opacity = '1';
 
-      // Update header status: AIRBORNE from Leg 3→4 onwards (ST. GALLEN→VANCOUVER)
+      // Update header status: AIRBORNE during the flight segments
+      // Building Direction→Collaboration at Intensity (Leg 4)
+      // Collaboration at Intensity→Systems at Scale (Leg 5)
       const headerMeta = document.getElementById('header-meta');
       if (headerMeta) {
-        headerMeta.textContent = chapter.id >= 4 ? 'AIRBORNE' : 'ROUTE ACTIVE';
+        headerMeta.textContent = chapter.id === 4 || chapter.id === 5 ? 'AIRBORNE' : 'ROUTE ACTIVE';
       }
 
       if (chapter.isFinalDestination) {
