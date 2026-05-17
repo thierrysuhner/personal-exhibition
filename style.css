@@ -393,9 +393,9 @@ body {
     background: #1d1f23;
     display: flex;
     flex-direction: column;
-    padding: 10px 22px 20px;
+    padding: 10px 16px 20px;
     align-items: center;
-    max-width: 640px;
+    max-width: 800px;
     justify-self: center;
     border-radius: 4px 4px 2px 2px;
     position: relative;
@@ -461,7 +461,7 @@ body {
     flex: 1;
     min-height: 0;
     width: 100%;
-    padding: 40px 32px 28px;
+    padding: 40px 24px 28px;
     overflow-y: auto;
     transform: rotate(-0.4deg);
     position: relative;
