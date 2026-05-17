@@ -46,7 +46,7 @@ const clearanceLetter = {
     "I'm drawn to Google because of the scale. Not scale as an abstraction, but the engineering reality of building infrastructure that millions of people rely on without ever thinking about. I want to work on problems where the difficulty is intrinsic to the domain, not imposed by tooling, and where the person two desks away has already solved something I haven't yet imagined.",
     "The flight log behind this letter is the honest account. Mediamatician at fifteen: production code, real clients, Friday deadlines. Swiss Army officer, second-in-command of 130 people under pressure. Computer Science at HSG: layered Java systems, ML deployment, Domain-Driven Design, API development in Python. VP of a student consulting club that competes internationally and wins. The thread across all of it: I look for environments where technical depth and real stakes converge.",
     "On day one I'd bring software design, REST API development, and data-driven problem-solving across Python and Java; fluency in Linux/Unix, Docker, and GitHub-based workflows; and the habit, formed at fifteen not taught, of shipping software that has to work.",
-    "I'd welcome 30 minutes with someone on the engineering team in Zurich. Not to pitch a generic application, but to ask specific questions about the work."
+    "I'd welcome 30 minutes with someone on the engineering team in Zurich. To pitch why the natural next step in my professional life would be to join you, and to ask in-depth questions about the work you do."
   ],
   signoff: "Awaiting clearance,\nT. Suhner"
 };
