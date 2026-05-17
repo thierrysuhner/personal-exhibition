@@ -133,18 +133,11 @@ const chapters = [
     body: "Five legs. Each one flew somewhere new — technically, professionally, personally. A terminal at fifteen, an infantry company at twenty-two, a case competition podium at twenty-three, a computer science degree still in progress. All connected by the same thread: environments where engineering challenges are too interesting to put down, and where the people around me refuse to accept good-enough. This waypoint is the first I have not yet reached. The destination is Google Zürich, at the Hürlimann Areal — a former brewery that became a hub for people building products used by billions. Things change function when the right people inhabit them. I want to build systems where engineering decisions affect millions of users, and learn from the engineers who already do. The route here was non-standard. So is the request for clearance.",
     callout: "I want to build systems where engineering decisions affect millions of people — and be in a room with engineers who already have.",
     stampText: null,
-<<<<<<< HEAD
-    contactEmail: "hello@tsuhner.com",
-    contactLinkedin: "linkedin.com/in/thierrysuhner",
-    cargo: [
-      { label: "GitHub · see all repos",  url: "https://github.com/thierrysuhner", note: "Public work, weekend builds, open source" }
-=======
     contactEmail: "thierry.suhner@gmx.ch",
     contactLinkedin: "linkedin.com/in/thierrysuhner",
     cargo: [
       { label: "GitHub · thierrysuhner",             url: "https://github.com/thierrysuhner",        note: "Public work, weekend builds, open source" },
       { label: "CV · one-pager",                     url: "cv.pdf",                                  note: "PDF, opens in browser" }
->>>>>>> 75d52c2 (Fill real content, add preflight animation and reset button)
     ],
     isFinalDestination: true
   }
