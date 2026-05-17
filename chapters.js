@@ -1,7 +1,7 @@
 // ─── Pilot / GitHub identity ──────────────────────────────────────
 // Used by the live cockpit instruments in the header.
 const pilot = {
-  githubUser: "PLACEHOLDER_GITHUB_USERNAME",     // ← replace with your GitHub handle
+  githubUser: "thierrysuhner",     // ← replace with your GitHub handle
   callsign:   "TS-001",
   homeBase:   "LSZH"
 };
@@ -121,11 +121,10 @@ const chapters = [
     body: "PLACEHOLDER — short approach note. Two or three handwritten sentences explaining why this is the final waypoint. Keep it human — the formal pitch lives in the transmission.",
     callout: "PLACEHOLDER — one sentence on what you'd bring to a Google engineering or product team.",
     stampText: null,
-    contactEmail: "t.suhner@PLACEHOLDER.com",
-    contactLinkedin: "linkedin.com/in/PLACEHOLDER",
+    contactEmail: "hello@tsuhner.com",
+    contactLinkedin: "linkedin.com/in/thierrysuhner",
     cargo: [
-      { label: "GitHub · see all repos",  url: "https://github.com/PLACEHOLDER_GITHUB_USERNAME", note: "Public work, weekend builds, open source" },
-      { label: "CV · one-pager",            url: "https://example.com/cv.pdf",                       note: "PDF (1 page)" }
+      { label: "GitHub · see all repos",  url: "https://github.com/thierrysuhner", note: "Public work, weekend builds, open source" }
     ],
     isFinalDestination: true
   }
