@@ -61,13 +61,15 @@ const chapters = [
     dot: "CH-LENZ",
     dotLabel: "Lenzburg",
     sketchAsset: "sketch-mediamatiker.svg",
-    title: "FIRST DEPARTURE",
+    title: "EARLY RESPONSIBILITY",
+    subtitle: "Practical work before theory",
+    signal: "shipping responsibility",
     body: "At twelve, I spent three weeks researching CPU socket types before touching a single component. The machine posted. That disposition - understand first, then build - turned into a vocation at fifteen when I began a three-year apprenticeship as a Mediamatician in Lenzburg. While peers studied theory, I was debugging a client's live website and explaining to the account manager why a missing semicolon had taken the contact form down since Tuesday. We wrote production code, worked in small teams, and shipped software to real users with real deadlines. The job title translates roughly as \"media technician,\" but what the apprenticeship actually gave me was a concrete education in the gap between design and implementation - between a system that works in a browser tab on your laptop and one that survives contact with real traffic, real edge cases, and real people who do not read the instructions. I arrived at university four years later than most of my classmates. I arrived knowing what shipping feels like.",
     callout: "The fastest way to understand a system is to be responsible for it when it breaks.",
     stampText: "LOGGED",
     cargo: [
-      { label: "GitHub · all public repos",        url: "https://github.com/thierrysuhner",          note: "Production code, side projects, coursework" },
-      { label: "Java CMS - layered architecture",  url: "https://github.com/thierrysuhner",          note: "RESTful API, highest possible grade" }
+      { label: "client work · web applications",   url: "https://github.com/thierrysuhner",          note: "Production code, real deadlines" },
+      { label: "design systems · production mindset", url: "https://github.com/thierrysuhner",       note: "From mockup to user-facing systems" }
     ]
   },
   {
@@ -78,13 +80,15 @@ const chapters = [
     dot: "CH-ARMY",
     dotLabel: "Army / SPHAIR",
     sketchAsset: "sketch-army.svg",
-    title: "PRESSURE ALTITUDE",
+    title: "PRESSURE & SELF-OVERRIDE",
+    subtitle: "Learning to function beyond comfort",
+    signal: "calm under pressure",
     body: "Swiss officer training is designed to remove comfort systematically. I was second-in-command of an infantry company - responsible for the safety, readiness, and decisions of more than 130 people. The lesson was not about authority. It was about reliability: people follow whoever is consistently clear-headed when conditions are not. I learned more about decision-making under genuine uncertainty in those months than in any other environment. In parallel, I entered SPHAIR - the Swiss Air Force pilot selection programme. I did not pass the final stage. That outcome was clarifying rather than comfortable: the process exposed specific gaps in how I performed under certain high-stakes assessment conditions, and what it takes to close them. Both experiences confirmed something I had started to suspect at fifteen - I work best when the constraints are real and the consequences for getting it wrong actually exist. The cockpit framing in this exhibition is not decorative. It is a precise reference.",
     callout: "I work best when the constraints are real and the consequences for getting it wrong actually exist.",
     stampText: "LOGGED",
     cargo: [
-      { label: "SPHAIR - Swiss Air Force selection", url: "https://www.sphair.ch",                   note: "Pilot aptitude programme" },
-      { label: "Swiss Army officer corps",           url: "https://www.vtg.admin.ch",                note: "Infantry, 2IC role, 130+ personnel" }
+      { label: "leadership · endurance",           url: "https://www.vtg.admin.ch",                note: "Infantry company 2IC, 130+ personnel" },
+      { label: "communication · responsibility",  url: "https://www.sphair.ch",                   note: "Pilot selection, high-stakes learning" }
     ]
   },
   {
@@ -95,14 +99,16 @@ const chapters = [
     dot: "CH-HSG",
     dotLabel: "St. Gallen",
     sketchAsset: "sketch-hsg.svg",
-    title: "CRUISE ALTITUDE",
+    title: "BUILDING DIRECTION",
+    subtitle: "Connecting technical depth, ambition, and identity",
+    signal: "building direction",
     body: "The challenge at HSG has not been difficulty. It has been choosing what to go deep on. I built a Java content management system with layered architecture and a RESTful API - it received the highest possible grade, which matters less to me than the fact that the architectural decisions behind it were intentional and defensible. I trained and deployed a random forest model to predict restaurant revenues from real staffing data. I am currently applying Domain-Driven Design to a full backend system for a vehicle subscription platform - writing bounded contexts, defining aggregates, and integrating third-party APIs in a way that would survive a real engineering review. The pattern across all three: I am drawn to problems where the design question is harder than the implementation. Understanding why a system is structured a certain way, what breaks first under real load, and where the abstraction boundary should sit - these are the questions I keep returning to. ESPRIT runs alongside this as VP, with real client projects and international competition results. That context matters. It is not the main story of this leg.",
     callout: "The signal that you understand a system is being able to explain clearly what you would change about it - and why.",
     stampText: "LOGGED",
     cargo: [
-      { label: "Vehicle subscription platform",      url: "https://github.com/unisg-scs-se/BSC_FS26_SE_GROUP01", note: "DDD, full backend, BDD, API integration" },
-      { label: "Restaurant revenue ML model",        url: "https://github.com/Luggias/DSF_Group_Project",        note: "Random forest, deployed, real staffing data" },
-      { label: "ESPRIT - HSG consulting club",       url: "https://espritsg.ch/",                                note: "VP, international competition wins" }
+      { label: "computer science · data",            url: "https://github.com/Luggias/DSF_Group_Project",        note: "ML deployment, systems thinking" },
+      { label: "business · systems thinking",        url: "https://espritsg.ch/",                                 note: "Consulting, case strategy, analysis" },
+      { label: "technical depth · architecture",     url: "https://github.com/unisg-scs-se/BSC_FS26_SE_GROUP01",  note: "DDD, layered systems, design decisions" }
     ]
   },
   {
@@ -113,13 +119,15 @@ const chapters = [
     dot: "CA-VAN",
     dotLabel: "Vancouver",
     sketchAsset: "sketch-caseit.svg",
-    title: "TRANSATLANTIC",
+    title: "COLLABORATION AT INTENSITY",
+    subtitle: "Meaningful work is rarely individual",
+    signal: "team intensity",
     body: "CaseIT is one of the world's largest international business case competitions. In February I flew to Vancouver with a team from ESPRIT to compete across four days of cases, presentations, and very little sleep. We won our division. But the note I wrote in my reflection exercise does not mention the trophy. It says: \"new friends, deep talks, going through hard work together.\" That is the accurate account. What I remember from Vancouver is not the conference room. It is the hotel lobby late on the second evening - working through a market-sizing framework with three people who had become real friends in 48 hours. I have been noticing a pattern: my highest moments are not achievement moments. They are moments of difficulty endured alongside people I respect. The trophy is evidence that those moments happened. It is not the point.",
     callout: "My best work has always happened in rooms where the stakes were real and the people were worth impressing.",
     stampText: "LOGGED",
     cargo: [
-      { label: "CaseIT 2026 - Vancouver",            url: "https://www.caseit.org/",                 note: "Division winners, international field" },
-      { label: "ESPRIT - competition team",          url: "https://www.linkedin.com/posts/university-of-st-gallen_hsg-studierende-gewinnen-zum-dritten-mal-ugcPost-7311300636686311424-TwtY?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEc4mhQBlTDRuCRLggThKaB_TyCfrxVBgkM", note: "4-person team, cross-functional prep" }
+      { label: "case competition · strategy",        url: "https://www.caseit.org/",                 note: "CaseIT 2026, division winners" },
+      { label: "teamwork · presentation",            url: "https://www.linkedin.com/posts/university-of-st-gallen_hsg-studierende-gewinnen-zum-dritten-mal-ugcPost-7311300636686311424-TwtY?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEc4mhQBlTDRuCRLggThKaB_TyCfrxVBgkM", note: "4-person team, structured problem-solving" }
     ]
   },
   {
@@ -130,15 +138,17 @@ const chapters = [
     dot: "CH-GOOG",
     dotLabel: "Google Zürich",
     sketchAsset: "sketch-googzh.svg",
-    title: "FILED. AWAITING CLEARANCE.",
+    title: "SYSTEMS AT SCALE",
+    subtitle: "Seeking environments where engineering affects millions",
+    signal: "engineering at scale",
     body: "The previous four legs share a common shape. Each one put me in an environment with real constraints, real stakes, and people who did not accept imprecision. A production codebase at fifteen. An infantry company at twenty-two. A case competition podium at twenty-three. A computer science degree still in progress, with layered systems, deployed models, and one backend I would genuinely defend in a technical review. The thread across all of it is not a list of achievements. It is a consistent preference for environments where the difficulty is intrinsic to the problem - where getting it right requires understanding something deeply rather than moving fast past the hard part. That is why this waypoint is Google Zürich. Not because of the name, but because the engineering problems there are hard in the right way: at a scale where architectural decisions carry real consequences, and where the people building them are the kind I have consistently done my best work around. This is the first leg I have not yet reached. The route here was non-standard. So is the request.",
     callout: "I want to build systems where engineering decisions affect millions of people - and be in a room with engineers who already have.",
     stampText: null,
     contactEmail: "thierry.suhner@gmx.ch",
     contactLinkedin: "linkedin.com/in/thierrysuhner",
     cargo: [
-      { label: "GitHub · thierrysuhner",             url: "https://github.com/thierrysuhner",        note: "Public work, weekend builds, open source" },
-      { label: "CV · one-pager",                     url: "cv.pdf",                                  note: "PDF, opens in browser" }
+      { label: "Python · Java · Go",                 url: "https://github.com/thierrysuhner",        note: "Production systems, backend design" },
+      { label: "systems · distributed thinking",     url: "cv.pdf",                                  note: "Scale-aware engineering, technical leadership" }
     ],
     isFinalDestination: true
   }
@@ -151,3 +161,58 @@ const dotPositions = {
   "CA-VAN":  { x: 72, y: 35 },
   "CH-GOOG": { x: 88, y: 50 }
 };
+
+// ─── Black Box Waypoints ──────────────────────────────────────────
+// Small narrative fragments showing emotional origins, non-linear decisions,
+// and formative moments. These are not achievements—they are quiet realizations.
+const waypoints = [
+  {
+    id: "first-detour",
+    type: "COURSE DEVIATION",
+    label: "FIRST DETOUR",
+    placement: "before-leg-01",
+    text: "One missed entrance exam quietly redirected the whole route."
+  },
+  {
+    id: "corona-2020",
+    type: "BLACK BOX ENTRY",
+    label: "2020",
+    placement: "after-leg-01",
+    text: "Isolation made time visible. I started asking what my habits were actually building."
+  },
+  {
+    id: "before-officer-school",
+    type: "RECOVERED SIGNAL",
+    label: "BEFORE OFFICER SCHOOL",
+    placement: "inside-leg-02",
+    text: "At first, continuing was not obvious. That is partly why it mattered."
+  },
+  {
+    id: "pressure-sleep",
+    type: "COCKPIT NOTE",
+    label: "PRESSURE",
+    placement: "after-leg-02",
+    text: "At some point I learned that sleep can matter more than the last five percent of preparation."
+  },
+  {
+    id: "ground-check",
+    type: "GROUND CHECK",
+    label: "FAMILY & FRIENDS",
+    placement: "after-leg-03",
+    text: "Leaving ambitious environments regularly helps me remember what they are for."
+  },
+  {
+    id: "hallwilersee",
+    type: "RECOVERED SIGNAL",
+    label: "HALLWILERSEE",
+    placement: "before-leg-01",
+    text: "Before ambition had a name, curiosity usually started outside."
+  },
+  {
+    id: "singapore-camera",
+    type: "WAYPOINT",
+    label: "SINGAPORE",
+    placement: "between-leg-01-and-leg-02",
+    text: "I tried to capture a feeling before I understood why certain moments stay."
+  }
+];
