@@ -265,7 +265,14 @@ class FlightLogApp {
       html += `</div>`;
     }
 
-    html += `<div class="chapter-sketch" id="sketch-container"></div>`;
+    // Build sketch inline — avoids getElementById timing issues
+    const ext = (chapter.sketchAsset || '').split('.').pop().toLowerCase();
+    if (ext === 'png' || ext === 'jpg' || ext === 'jpeg' || ext === 'webp') {
+      html += `<div class="chapter-sketch"><img src="assets/drawings/${chapter.sketchAsset}" alt="Leg ${chapter.id} sketch" loading="lazy"></div>`;
+    } else {
+      html += `<div class="chapter-sketch" id="sketch-container"></div>`;
+    }
+
     html += `<div class="chapter-body">${chapter.body}</div>`;
     html += `<div class="chapter-callout">${chapter.callout}</div>`;
 
@@ -307,18 +314,22 @@ class FlightLogApp {
       }
     }
 
-    const div = document.createElement('div');
-    div.innerHTML = html;
+    // SVG sketches still need async fetch; PNG/JPG are already inlined above
+    if (ext !== 'png' && ext !== 'jpg' && ext !== 'jpeg' && ext !== 'webp') {
+      setTimeout(() => {
+        this.loadSketch(chapter.sketchAsset, chapter.id);
+      }, 100);
+    }
 
+    // Attach replay button listener after DOM insert
     setTimeout(() => {
-      this.loadSketch(chapter.sketchAsset, chapter.id);
       const replay = document.getElementById('replay-transmission');
       if (replay) {
         replay.addEventListener('click', () => this.playTransmission());
       }
     }, 100);
 
-    return div.innerHTML;
+    return html;
   }
 
   buildWaypointHTML(waypoint) {
