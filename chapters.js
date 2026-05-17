@@ -34,8 +34,8 @@ const preflightChecklist = [
 const atcTransmission = [
   { freq: "118.10", who: "TS-001",    msg: "Zurich Tower, flight TS-001, short final runway 14, request clearance to land." },
   { freq: "118.10", who: "ZRH TOWER", msg: "TS-001, identify intent." },
-  { freq: "118.10", who: "TS-001",    msg: "Five legs filed. Destination: Google Zürich, Hürlimann Areal. Cargo: curiosity, code, and one engineering problem I'd like to work on." },
-  { freq: "118.10", who: "ZRH TOWER", msg: "TS-001, transmission received. Stand by…" }
+  { freq: "118.10", who: "TS-001",    msg: "Five legs filed. Destination: Google Zurich, Hürlimann Areal. Cargo: curiosity, code, and one engineering problem I'd like to work on." },
+  { freq: "118.10", who: "ZRH TOWER", msg: "TS-001, five legs noted. Cleared to land runway 14. Good to have you." }
 ];
 
 // ─── Clearance letter (rendered after the transmission) ───────────
@@ -43,10 +43,10 @@ const clearanceLetter = {
   to:   "ATTN: HIRING CAPTAIN, GOOGLE ZÜRICH",
   from: "T. SUHNER, FLIGHT TS-001",
   body: [
-    "I'm drawn to Google because of the scale - not scale as an abstraction, but the engineering reality of building infrastructure that millions of people rely on without ever thinking about. I want to work on problems where the difficulty is intrinsic to the domain, not imposed by tooling, and where the person two desks away has already solved something I haven't yet imagined.",
+    "I'm drawn to Google because of the scale. Not scale as an abstraction, but the engineering reality of building infrastructure that millions of people rely on without ever thinking about. I want to work on problems where the difficulty is intrinsic to the domain, not imposed by tooling, and where the person two desks away has already solved something I haven't yet imagined.",
     "The flight log behind this letter is the honest account. Mediamatician at fifteen: production code, real clients, Friday deadlines. Swiss Army officer, second-in-command of 130 people under pressure. Computer Science at HSG: layered Java systems, ML deployment, Domain-Driven Design, API development in Python. VP of a student consulting club that competes internationally and wins. The thread across all of it: I look for environments where technical depth and real stakes converge.",
     "On day one I'd bring software design, REST API development, and data-driven problem-solving across Python and Java; fluency in Linux/Unix, Docker, and GitHub-based workflows; and the habit, formed at fifteen not taught, of shipping software that has to work.",
-    "I'd welcome 30 minutes with someone on the engineering team in Zürich. Not to pitch a generic application - to ask specific questions about the work."
+    "I'd welcome 30 minutes with someone on the engineering team in Zurich. Not to pitch a generic application, but to ask specific questions about the work."
   ],
   signoff: "Awaiting clearance,\nT. Suhner"
 };
@@ -106,7 +106,7 @@ const chapters = [
     subtitle: "Connecting technical depth, ambition, and identity",
     signal: "building direction",
     body: "The challenge at HSG has not been difficulty. It has been choosing what to go deep on. The coursework covers layered Java architecture, machine learning deployment, and Domain-Driven Design. Different in surface, but each one raises the same question: why is this system structured the way it is, and what would break first under real load? That question has stayed with me more than any grade. The pattern I have noticed is that I am drawn to problems where the design decision is harder than the implementation, where getting the structure right matters more than getting it done quickly. Running ESPRIT alongside this has added a different kind of complexity. ESPRIT is the student-run consultancy of HSG, working on real client mandates and competing internationally. As VP, I deal with client work, time pressure, and decisions made with incomplete information. Operating across both has taught me something about managing competing priorities that coursework alone would not have.",
-    callout: "The sign that you understand a system is being able to explain clearly what you would change about it - and why.",
+    callout: "The sign that you understand a system is being able to explain clearly what you would change about it, and why.",
     stampText: "LOGGED",
     cargo: [
       { label: "computer science · data",            url: "https://github.com/Luggias/DSF_Group_Project",        note: "ML deployment, systems thinking" },
@@ -140,20 +140,20 @@ const chapters = [
     location: "GOOGLE ZÜRICH · HÜRLIMANN AREAL",
     dateRange: "PENDING",
     dot: "CH-GOOG",
-    dotLabel: "Google Zürich",
+    dotLabel: "Google Zurich",
     sketchAsset: "Leg_5.PNG",
     title: "SYSTEMS AT SCALE",
     mapLabel: "Systems@Scale",
     subtitle: "Seeking environments where engineering affects millions",
     signal: "engineering at scale",
-    body: "The previous four legs share a shape: each one put me in an environment where the difficulty was real, the people held high standards, and getting things wrong had consequences. That combination is where I have consistently done my best work. It is also what I am looking for next. Google Zürich specifically - not for the name, but because the engineering problems there are hard in the way that interests me: at a scale where architectural decisions carry real weight, and around people who have already solved problems I am still learning to ask. This is the leg I have not yet reached. The application is the route.",
-    callout: "I want to work on problems where the engineering difficulty is intrinsic - and be around people who have already navigated them.",
+    body: "The previous four legs share a shape: each one put me in an environment where the difficulty was real, the people held high standards, and getting things wrong had consequences. That combination is where I have consistently done my best work. It is also what I am looking for next. Google Zurich specifically, not for the name, but because the engineering problems there are hard in the way that interests me: at a scale where architectural decisions carry real weight, and around people who have already solved problems I am still learning to ask. This is the leg I have not yet reached. The application is the route.",
+    callout: "I want to work on problems where the engineering difficulty is intrinsic, and be around people who have already navigated them.",
     stampText: null,
     contactEmail: "thierry.suhner@gmx.ch",
     contactLinkedin: "linkedin.com/in/thierrysuhner",
     cargo: [
       { label: "Python · Java",                       url: "https://github.com/thierrysuhner",        note: "Production systems, backend design" },
-      { label: "systems · distributed thinking",     url: "cv.pdf",                                  note: "Scale-aware engineering, technical leadership" }
+      { label: "curriculum vitae",                    url: "cv.pdf",                                  note: "Scale-aware engineering, technical leadership" }
     ],
     isFinalDestination: true
   }
