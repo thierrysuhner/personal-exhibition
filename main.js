@@ -34,13 +34,15 @@ class FlightLogApp {
     await this.sleep(500);
 
     overlay.classList.add('fade-out');
+    overlay.style.pointerEvents = 'none'; // kill clicks immediately, don't rely on CSS keyframe
 
     const logbook = document.getElementById('logbook');
     logbook.classList.remove('hidden');
 
     setTimeout(() => {
+      overlay.style.display = 'none'; // fully remove from stacking context after fade
       this.initializeApp();
-    }, 400);
+    }, 420);
   }
 
   async typeText(el, text, delay, color, size) {
@@ -102,9 +104,10 @@ class FlightLogApp {
         await this.triggerFlightAnimation(fromChapterId, chapterId);
       } catch (err) {
         console.error('Flight animation error:', err);
+      } finally {
+        // Always clear blocking overlays regardless of success or failure
         document.getElementById('flight-overlay').classList.remove('active');
         this.closeChecklistDrawer();
-      } finally {
         this.state.currentChapter = chapterId;
         this.state.isAnimating = false;
         this.saveStateToStorage();
