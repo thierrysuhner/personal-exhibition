@@ -198,7 +198,30 @@ class FlightLogApp {
     container.style.transition = 'opacity 200ms ease-out';
 
     setTimeout(() => {
-      container.innerHTML = this.buildChapterHTML(chapter);
+      let html = '';
+
+      // Render waypoints that should appear before this leg
+      const beforeWaypoints = waypoints.filter(w => w.placement === `before-leg-0${chapter.id}`);
+      for (const wp of beforeWaypoints) {
+        html += this.buildWaypointHTML(wp);
+      }
+
+      // Render the main chapter
+      html += this.buildChapterHTML(chapter);
+
+      // Render waypoints that should appear after this leg
+      const afterWaypoints = waypoints.filter(w => w.placement === `after-leg-0${chapter.id}`);
+      for (const wp of afterWaypoints) {
+        html += this.buildWaypointHTML(wp);
+      }
+
+      // Render waypoints that should appear inside this leg (at the end of chapter)
+      const insideWaypoints = waypoints.filter(w => w.placement === `inside-leg-0${chapter.id}`);
+      for (const wp of insideWaypoints) {
+        html += this.buildWaypointHTML(wp);
+      }
+
+      container.innerHTML = html;
       container.style.opacity = '1';
       if (chapter.isFinalDestination) {
         container.classList.add('final-destination');
@@ -216,6 +239,17 @@ class FlightLogApp {
         <span class="chapter-date">${chapter.dateRange}</span>
       </div>
     `;
+
+    if (chapter.subtitle || chapter.signal) {
+      html += `<div class="chapter-meta">`;
+      if (chapter.subtitle) {
+        html += `<span class="chapter-subtitle">${chapter.subtitle}</span>`;
+      }
+      if (chapter.signal) {
+        html += `<span class="chapter-signal">● ${chapter.signal}</span>`;
+      }
+      html += `</div>`;
+    }
 
     html += `<div class="chapter-sketch" id="sketch-container"></div>`;
     html += `<div class="chapter-body">${chapter.body}</div>`;
@@ -271,6 +305,18 @@ class FlightLogApp {
     }, 100);
 
     return div.innerHTML;
+  }
+
+  buildWaypointHTML(waypoint) {
+    return `
+      <div class="waypoint-card" data-waypoint-id="${waypoint.id}">
+        <div class="waypoint-header">
+          <span class="waypoint-type">${waypoint.type}</span>
+          <span class="waypoint-label">${waypoint.label}</span>
+        </div>
+        <div class="waypoint-text">${waypoint.text}</div>
+      </div>
+    `;
   }
 
   async loadSketch(sketchAsset, chapterId) {

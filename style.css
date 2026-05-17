@@ -484,6 +484,32 @@ body {
 .chapter-location { display: inline-block; }
 .chapter-date     { display: block; font-size: 0.68rem; margin-top: 2px; }
 
+/* Chapter metadata: subtitle and signal */
+.chapter-meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 12px;
+    padding-top: 10px;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    color: var(--ink-dark);
+}
+
+.chapter-subtitle {
+    font-style: italic;
+    color: rgba(26, 26, 26, 0.75);
+}
+
+.chapter-signal {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--amber-warn);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
 .chapter-sketch {
     width: 130px;
     height: 130px;
@@ -563,6 +589,49 @@ body {
     color: var(--green-active);
     text-decoration: none;
     border-bottom: 1px solid var(--green-active);
+}
+
+/* Black Box Waypoints */
+.waypoint-card {
+    background: rgba(26, 26, 26, 0.25);
+    border: 1px solid rgba(26, 26, 26, 0.35);
+    border-radius: 3px;
+    padding: 14px 16px;
+    margin: 22px 0;
+    animation: fadeIn 400ms ease-out;
+}
+
+.waypoint-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.waypoint-type {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.5);
+    font-weight: 500;
+}
+
+.waypoint-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-dark);
+    font-weight: 600;
+}
+
+.waypoint-text {
+    font-family: var(--font-body);
+    font-size: 0.80rem;
+    line-height: 1.6;
+    color: rgba(26, 26, 26, 0.85);
+    font-style: italic;
 }
 
 .chapter-contact a:hover {
