@@ -337,13 +337,27 @@ class FlightLogApp {
     const container = document.getElementById('sketch-container');
     if (!container) return;
 
-    try {
-      const res = await fetch(`assets/drawings/${sketchAsset}`);
-      if (!res.ok) throw new Error('not found');
-      const svg = await res.text();
-      container.innerHTML = svg;
-    } catch {
-      this.drawFallbackSketch(container, `CHAPTER ${chapterId}`);
+    if (sketchAsset.endsWith('.png') || sketchAsset.endsWith('.jpg') || sketchAsset.endsWith('.webp')) {
+      const img = document.createElement('img');
+      img.src = `assets/drawings/${sketchAsset}`;
+      img.alt = `Leg ${chapterId} sketch`;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'contain';
+      img.onerror = () => {
+        container.innerHTML = '';
+        this.drawFallbackSketch(container, `CHAPTER ${chapterId}`);
+      };
+      container.appendChild(img);
+    } else {
+      try {
+        const res = await fetch(`assets/drawings/${sketchAsset}`);
+        if (!res.ok) throw new Error('not found');
+        const svg = await res.text();
+        container.innerHTML = svg;
+      } catch {
+        this.drawFallbackSketch(container, `CHAPTER ${chapterId}`);
+      }
     }
   }
 
