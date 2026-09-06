@@ -34,13 +34,13 @@ const preflightChecklist = [
 const atcTransmission = [
   { freq: "118.10", who: "TS-001",    msg: "Zurich Tower, flight TS-001, short final runway 14, request clearance to land." },
   { freq: "118.10", who: "ZRH TOWER", msg: "TS-001, identify intent." },
-  { freq: "118.10", who: "TS-001",    msg: "Five legs filed. Destination: Google. Cargo: curiosity, code, and one engineering problem I'd like to work on." },
+  { freq: "118.10", who: "TS-001",    msg: "Five legs filed. Destination: Google Zurich, Hürlimann Areal. Cargo: curiosity, code, and one engineering problem I'd like to work on." },
   { freq: "118.10", who: "ZRH TOWER", msg: "TS-001, five legs noted. Cleared to land runway 14. Good to have you." }
 ];
 
 // ─── Clearance letter (rendered after the transmission) ───────────
 const clearanceLetter = {
-  to:   "ATTN: HIRING CAPTAIN, GOOGLE",
+  to:   "ATTN: HIRING CAPTAIN, GOOGLE ZÜRICH",
   from: "T. SUHNER, FLIGHT TS-001",
   body: [
     "I'm drawn to Google because of the scale. Not scale as an abstraction, but the engineering reality of building infrastructure that millions of people rely on without ever thinking about. I want to work on problems where the difficulty is intrinsic to the domain, not imposed by tooling, and where the person two desks away has already solved something I haven't yet imagined.",
@@ -137,16 +137,16 @@ const chapters = [
   {
     id: 5,
     leg: "LEG 05",
-    location: "GOOGLE",
+    location: "GOOGLE ZÜRICH · HÜRLIMANN AREAL",
     dateRange: "PENDING",
-    dot: "GOOG",
-    dotLabel: "Google",
+    dot: "CH-GOOG",
+    dotLabel: "Google Zurich",
     sketchAsset: "Leg_5.PNG",
     title: "SYSTEMS AT SCALE",
     mapLabel: "Systems@Scale",
     subtitle: "Seeking environments where engineering affects millions",
     signal: "engineering at scale",
-    body: "The previous four legs share a shape: each one put me in an environment where the difficulty was real, the people held high standards, and getting things wrong had consequences. That combination is where I have consistently done my best work. It is also what I am looking for next. Google specifically, not for the name, but because the engineering problems there are hard in the way that interests me: at a scale where architectural decisions carry real weight, and around people who have already solved problems I am still learning to ask. This is the leg I have not yet reached. The application is the route.",
+    body: "The previous four legs share a shape: each one put me in an environment where the difficulty was real, the people held high standards, and getting things wrong had consequences. That combination is where I have consistently done my best work. It is also what I am looking for next. Google Zurich specifically, not for the name, but because the engineering problems there are hard in the way that interests me: at a scale where architectural decisions carry real weight, and around people who have already solved problems I am still learning to ask. This is the leg I have not yet reached. The application is the route.",
     callout: "I want to work on problems where the engineering difficulty is intrinsic, and be around people who have already navigated them.",
     stampText: null,
     contactEmail: "thierry.suhner@gmx.ch",
