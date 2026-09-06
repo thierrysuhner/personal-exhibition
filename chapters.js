@@ -139,7 +139,7 @@ const chapters = [
     leg: "LEG 05",
     location: "GOOGLE",
     dateRange: "PENDING",
-    dot: "GOOG",
+    dot: "CH-GOOG",
     dotLabel: "Google",
     sketchAsset: "Leg_5.PNG",
     title: "SYSTEMS AT SCALE",
